@@ -18,6 +18,7 @@ public class UserMapping : IEntityTypeConfiguration<User>
         builder.Property(x => x.Id)
             .ValueGeneratedOnAdd();
 
+        /* properties */
         builder.Property(x => x.Name)
             .IsRequired()
             .HasColumnType("NVARCHAR")
@@ -35,5 +36,9 @@ public class UserMapping : IEntityTypeConfiguration<User>
             .HasColumnName("PasswordHash")
             .HasColumnType("VARCHAR")
             .HasMaxLength(255);
+        
+        /* index */
+        builder.HasIndex(x => x.Id)
+            .IsUnique();
     }
 }
