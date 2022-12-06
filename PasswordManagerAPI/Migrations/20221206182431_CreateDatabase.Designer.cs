@@ -11,7 +11,7 @@ using PasswordManagerAPI.Data;
 namespace PasswordManagerAPI.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    [Migration("20221202011516_CreateDatabase")]
+    [Migration("20221206182431_CreateDatabase")]
     partial class CreateDatabase
     {
         /// <inheritdoc />

@@ -37,6 +37,9 @@ public class UserMapping : IEntityTypeConfiguration<User>
             .HasColumnType("VARCHAR")
             .HasMaxLength(255);
         
+        /* um para muitos */
+        builder.HasMany(x => x.Credentials);
+
         /* index */
         builder.HasIndex(x => x.Id)
             .IsUnique();
