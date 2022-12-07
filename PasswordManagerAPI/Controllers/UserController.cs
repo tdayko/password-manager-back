@@ -1,5 +1,5 @@
-using System.Data.Common;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PasswordManagerAPI.Data;
 using PasswordManagerAPI.Models;
 using PasswordManagerAPI.Services;
@@ -43,7 +43,23 @@ public class UserController : ControllerBase
         [FromServices] TokenService tokenService,
         [FromBody] LoginViewModel model)
     {
-        var token = tokenService.GenerateToken(null);
+        var user = await context.Users
+            .AsNoTracking()
+            .Include(x => x.Credentials)
+            .FirstOrDefaultAsync(x => x.Email == model.Email);
+
+        if (user == null) return NotFound("Usuário não encontrado!");
+        if(user.PasswordHash != model.Password)
+            return StatusCode(403, "Usuário ou senha inválidos");
+
+        try
+        {
+            var token = tokenService.GenerateToken(user);
+            return Ok(token);
+        }
+        catch
+        {
+            return StatusCode(500, "1101 - Falha interna no servidor!");
+        }
     }
-    
 }
