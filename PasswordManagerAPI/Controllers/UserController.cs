@@ -2,6 +2,7 @@ using System.Data.Common;
 using Microsoft.AspNetCore.Mvc;
 using PasswordManagerAPI.Data;
 using PasswordManagerAPI.Models;
+using PasswordManagerAPI.Services;
 using PasswordManagerAPI.ViewModels;
 
 namespace PasswordManagerAPI.Controllers;
@@ -34,4 +35,15 @@ public class UserController : ControllerBase
             return StatusCode(500, "Ocorreu um erro durante no cadstro da conta!");
         }
     }
+    
+    /* login */
+    [HttpPost("api/accounts/login")]
+    public async Task<IActionResult> LoginAsync(
+        [FromServices] AppDataContext context,
+        [FromServices] TokenService tokenService,
+        [FromBody] LoginViewModel model)
+    {
+        var token = tokenService.GenerateToken(null);
+    }
+    
 }

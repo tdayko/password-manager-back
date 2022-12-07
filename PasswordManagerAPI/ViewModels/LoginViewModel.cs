@@ -2,12 +2,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PasswordManagerAPI.ViewModels;
 
-public class UserViewModel
+public class LoginViewModel
 {
-    [Required(ErrorMessage = "O campo <Name> é obrigatório!")]
-    public string Name { get; set; }
+    [EmailAddress(ErrorMessage = "E-mail inválido!")]
     [Required(ErrorMessage = "O campo <Email> é obrigatório!")]
     public string Email { get; set; }
+    
     [Required(ErrorMessage = "O campo <Password> é obrigatório!")]
     public string Password { get; set; }
 }
