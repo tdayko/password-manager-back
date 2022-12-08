@@ -7,6 +7,10 @@ using PasswordManagerAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDbContext<AppDataContext>();
+builder.Services.AddScoped<TokenService>();
+builder.Services.AddControllers();
+
 var key = Encoding.ASCII.GetBytes(Configuration.JwtKey);
 builder.Services.AddAuthentication(x =>
 {
@@ -19,13 +23,9 @@ builder.Services.AddAuthentication(x =>
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(key),
         ValidateIssuer = false,
-        ValidateAudience = true
+        ValidateAudience = false
     };
 });
-
-builder.Services.AddDbContext<AppDataContext>();
-builder.Services.AddScoped<TokenService>();
-builder.Services.AddControllers();
 
 var app = builder.Build();
 

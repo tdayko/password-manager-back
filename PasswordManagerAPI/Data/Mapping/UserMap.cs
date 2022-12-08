@@ -43,5 +43,8 @@ public class UserMapping : IEntityTypeConfiguration<User>
         /* index */
         builder.HasIndex(x => x.Id)
             .IsUnique();
+        
+        builder.HasIndex(x => x.Email)
+            .IsUnique();
     }
 }
