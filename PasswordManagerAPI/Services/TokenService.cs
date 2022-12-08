@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using PasswordManagerAPI.Models;
@@ -16,6 +17,12 @@ public class TokenService
         /* configurando especificação do token */
         var tokenDescriptor = new SecurityTokenDescriptor
         {
+            /* conteúdo do token ( payload: data ) */
+            Subject = new ClaimsIdentity(new Claim[]
+            {
+                new (ClaimTypes.Name, "") // User.Identity.Name
+            }),
+            
             /* expiração do token */
             Expires = DateTime.UtcNow.AddHours(8),
 
