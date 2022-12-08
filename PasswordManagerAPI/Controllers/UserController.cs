@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PasswordManagerAPI.Data;
@@ -8,8 +9,10 @@ using PasswordManagerAPI.ViewModels;
 namespace PasswordManagerAPI.Controllers;
 
 [ApiController]
+[Authorize]
 public class UserController : ControllerBase
 {
+    [AllowAnonymous]
     /* register */
     [HttpPost("/api/accounts/register")]
     public async Task<IActionResult> RegisterAsync(
