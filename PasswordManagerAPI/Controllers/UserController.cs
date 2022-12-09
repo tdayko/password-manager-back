@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +41,7 @@ public class UserController : ControllerBase
     }
     
     /* login */
+    [AllowAnonymous]
     [HttpPost("api/accounts/login")]
     public async Task<IActionResult> LoginAsync(
         [FromServices] AppDataContext context,
@@ -65,4 +67,40 @@ public class UserController : ControllerBase
             return StatusCode(500, "1101 - Falha interna no servidor!");
         }
     }
+
+    [HttpPost("/api/credentials/new-credential")]
+    public async Task<IActionResult> AddCredentialAsync(
+        [FromServices] AppDataContext context,
+        [FromBody] AddCredentialViewModel model)
+    {
+        string userEmail = User.Identity.Name;
+
+        var user = await context.Users
+            .AsNoTracking()
+            .Include(x => x.Credentials)
+            .FirstOrDefaultAsync(x => x.Email == userEmail);
+
+        var credential = new Credential
+        {
+            Name = model.Name,
+            Password = model.Password,
+            Uri = model.Uri
+        };
+
+        try
+        {
+            context.Users
+                .AsNoTracking()
+                .Include(x => credential)
+                .Select(x => user);
+
+            await context.SaveChangesAsync();
+            return Ok(credential);
+        }
+        catch
+        {
+            return StatusCode(500, "1101 - Falha interna no servidor!");
+        }
+    }
+    
 }
