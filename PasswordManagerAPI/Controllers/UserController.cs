@@ -68,7 +68,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpPost("/api/credentials/new-credential")]
+    [HttpPut("/api/credentials/new-credential")]
     public async Task<IActionResult> AddCredentialAsync(
         [FromServices] AppDataContext context,
         [FromBody] AddCredentialViewModel model)
@@ -76,7 +76,6 @@ public class UserController : ControllerBase
         string userEmail = User.Identity.Name;
 
         var user = await context.Users
-            .AsNoTracking()
             .Include(x => x.Credentials)
             .FirstOrDefaultAsync(x => x.Email == userEmail);
 
@@ -89,11 +88,9 @@ public class UserController : ControllerBase
 
         try
         {
-            context.Users
-                .AsNoTracking()
-                .Include(x => credential)
-                .Select(x => user);
+            user.Credentials.Add(credential);
 
+            context.Update(user);
             await context.SaveChangesAsync();
             return Ok(credential);
         }
@@ -102,5 +99,4 @@ public class UserController : ControllerBase
             return StatusCode(500, "1101 - Falha interna no servidor!");
         }
     }
-    
 }
