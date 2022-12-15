@@ -1,4 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -76,6 +75,7 @@ public class UserController : ControllerBase
         string userEmail = User.Identity.Name;
 
         var user = await context.Users
+            .AsNoTracking()
             .Include(x => x.Credentials)
             .FirstOrDefaultAsync(x => x.Email == userEmail);
 
@@ -98,5 +98,30 @@ public class UserController : ControllerBase
         {
             return StatusCode(500, "1101 - Falha interna no servidor!");
         }
+    }
+
+    [HttpGet("api/credentials")]
+    public async Task<IActionResult> GetCredentials(
+        [FromServices] AppDataContext context)
+    {
+        string userEmail = User.Identity.Name;
+
+        var user = await context.Users
+            .AsNoTracking()
+            .Include(x => x.Credentials)
+            .FirstOrDefaultAsync(x => x.Email == userEmail);
+
+        if (user.Credentials == null)
+            return NotFound("Você não tem nenhuma credencial adicionada!");
+
+        try
+        {
+            return Ok(user.Credentials);
+        }
+        catch
+        {
+            return StatusCode(500, "1101 - Falha interna no servidor!");
+        }
+
     }
 }
