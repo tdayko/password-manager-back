@@ -91,5 +91,5 @@ https://localhost:7215/api/credentials/
 Developing...
 ```
 
-# 📜 License
+# License
 Distributed under the MIT License. See `LICENSE.txt` for more information.
