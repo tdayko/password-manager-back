@@ -96,7 +96,7 @@ public class UserController : ControllerBase
         }
         catch
         {
-            return StatusCode(500, "1101 - Falha interna no servidor!");
+            return StatusCode(500, "1131 - Falha interna no servidor!");
         }
     }
 
@@ -120,8 +120,36 @@ public class UserController : ControllerBase
         }
         catch
         {
-            return StatusCode(500, "1101 - Falha interna no servidor!");
+            return StatusCode(500, "1201 - Falha interna no servidor!");
+        }
+    }
+
+    [HttpDelete("api/credentials/delete/{idCredential:int}")]
+    public async Task<IActionResult> DeleteCredential(
+        [FromServices] AppDataContext context,
+        [FromRoute] int idCredential)
+    {
+        string userEmail = User.Identity.Name;
+
+        var user = await context.Users
+            .AsNoTracking()
+            .Include(x => x.Credentials)
+            .FirstOrDefaultAsync(x => x.Email == userEmail);
+        var credential = user.Credentials.FirstOrDefault(x => x.Id == idCredential);
+
+        if (user == null) NotFound("Usuário não encontrado!");
+        if (credential == null) NotFound("Este usuário não possuí essa credencial!");
+        
+        try
+        {
+            context.Remove(credential);
+            await context.SaveChangesAsync();
+        }
+        catch
+        {
+            StatusCode(500, "1124 - Falha interna no servidor");
         }
 
+        return Ok(credential);
     }
 }
