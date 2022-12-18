@@ -88,8 +88,9 @@ https://localhost:7215/api/credentials/
 
 ### `Delete` a credential
 ```
-Developing...
+https://localhost:7215/api/credentials/delete/{id}
 ```
+![image](https://user-images.githubusercontent.com/99461398/208300768-5e603d06-8601-48b2-80f9-539396b190a5.png)
 
 # License
 Distributed under the MIT License. See `LICENSE.txt` for more information.
