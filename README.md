@@ -1,5 +1,5 @@
 # 🔒 Password Manager API 🔒
-> Status: Developing 👌
+> Status: Finished 👌
 
 <details>
   <summary>Table of Contents</summary>
