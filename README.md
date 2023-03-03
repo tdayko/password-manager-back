@@ -15,7 +15,7 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#requirements">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
@@ -49,7 +49,7 @@ to manage your credentials from various websites and apps to stay save and secur
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
-## Prerequisites
+## requirements
 - [ ] .NET 6
 
 ### Installation
