@@ -1,5 +1,5 @@
 # 🔒 Password Manager API 🔒
-> Status: Finished 👌
+> Status: Developing...
 
 <details>
   <summary>Table of Contents</summary>
@@ -31,7 +31,7 @@ to manage your credentials from various websites and apps to stay save and secur
 ## Built with
 - [x] C# .NET
 - [x] Entity Framework
-- [x] SQLite
+- [x] ...
 
 ## Features
 - [x] Json Web Token Authentication (JWT)
@@ -50,7 +50,7 @@ This is an example of how you may give instructions on setting up your project l
 To get a local copy up and running follow these simple example steps.
 
 ## requirements
-- [ ] .NET 6
+- [x] .NET 7
 
 ### Installation
 1. Clone the repo
