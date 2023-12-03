@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/urltapas/dev/password-manager/PasswordManager.Domain/PasswordManager.Domain.csproj",
+      "projectUniqueName": "/home/urltapas/dev/password-manager/src/PasswordManager.Domain/PasswordManager.Domain.csproj",
       "projectName": "PasswordManager.Domain",
-      "projectPath": "/home/urltapas/dev/password-manager/PasswordManager.Domain/PasswordManager.Domain.csproj",
+      "projectPath": "/home/urltapas/dev/password-manager/src/PasswordManager.Domain/PasswordManager.Domain.csproj",
       "packagesPath": "/home/urltapas/.nuget/packages/",
-      "outputPath": "/home/urltapas/dev/password-manager/PasswordManager.Domain/obj/",
+      "outputPath": "/home/urltapas/dev/password-manager/src/PasswordManager.Domain/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/urltapas/.nuget/NuGet/NuGet.Config"
