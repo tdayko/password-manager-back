@@ -16,7 +16,7 @@ public class AuthenticationController(ISender sender) : ControllerBase
     public async Task<IActionResult> Register(RegisterRequest request)
     {
         var command = new RegisterCommand(request.Username, request.Email, request.Password);
-        var authResult = await _sender.Send(command);
+        _ = await _sender.Send(command);
 
         return Ok(new AuthenticationResponse(Guid.NewGuid(), request.Username, request.Email, "token"));
     }
