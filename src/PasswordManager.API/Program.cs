@@ -10,8 +10,11 @@ builder.Services.AddSwaggerGen(x =>
     x.SwaggerDoc("v1",
         new OpenApiInfo { Title = "Password Manager v2", Description = "Easily protect sensitive passwords with this API", Version = "v2" }
     ));
-builder.Services.AddIoC();
+
 builder.Services.AddMediatR();
+builder.Services.AddIoC();
+
+
 
 var app = builder.Build();
 

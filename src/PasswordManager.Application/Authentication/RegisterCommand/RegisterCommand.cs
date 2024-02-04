@@ -1,4 +1,9 @@
 using MediatR;
 namespace PasswordManager.Application.Authentication.RegisterCommand;
 
-public record RegisterCommand(string Username, string Email, string Password) : IRequest<AuthenticationResult>;
+public record RegisterCommand : IRequest<AuthenticationResult>
+{
+    public required string Username { get; set; }
+    public required string Email { get; set; }
+    public required string Password { get; set; }
+} 
