@@ -1,9 +1,8 @@
 using AutoMapper;
-
 using MediatR;
-
 using Microsoft.AspNetCore.Mvc;
 
+using PasswordManager.Application.Authentication;
 using PasswordManager.Application.Authentication.LoginQuery;
 using PasswordManager.Application.Authentication.RegisterCommand;
 using PasswordManager.Application.Contracts.Authentication;
@@ -20,14 +19,14 @@ public class AuthenticationController(ISender sender, IMapper mapper) : Controll
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequest request)
     {
-        _ = await _sender.Send(_mapper.Map<RegisterCommand>(request));
-        return Ok(new AuthenticationResponse(Guid.NewGuid(), request.Username, request.Email, "token"));
+        AuthenticationResult authResult = await _sender.Send(_mapper.Map<RegisterCommand>(request));
+        return Ok(authResult);
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest request)
     {
-        _ = await _sender.Send(_mapper.Map<LoginQuery>(request));
-        return Ok(new AuthenticationResponse(Guid.NewGuid(), request.Email, request.Password, "token"));
+        AuthenticationResult authResult = await _sender.Send(_mapper.Map<LoginQuery>(request));
+        return Ok(authResult);
     }
 }

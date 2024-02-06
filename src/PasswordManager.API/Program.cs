@@ -1,10 +1,10 @@
 using Microsoft.OpenApi.Models;
 
+using PasswordManager.API.Middlewares;
 using PasswordManager.Application;
 using PasswordManager.IoC;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(x =>
@@ -20,15 +20,15 @@ builder.Services.AddSwaggerGen(x =>
 builder.Services.AddMediatR();
 builder.Services.AddIoC();
 
-
 WebApplication app = builder.Build();
 
 #region App Settings
 
+app.UseMiddleware<ApiResponseMiddleware>();
 app.UseHttpsRedirection();
 app.MapControllers();
 app.UseSwagger();
-app.UseSwaggerUI(x => x.SwaggerEndpoint("/swagger/v1/swagger.json", "Task tracker API"));
+app.UseSwaggerUI(x => x.SwaggerEndpoint("/swagger/v1/swagger.json", "Password Manager API"));
 app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
 app.Run();
 
