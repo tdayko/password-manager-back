@@ -1,8 +1,8 @@
-namespace PasswordManager.Application.Contracts;
+namespace PasswordManager.Application.Contracts.Authentication;
 
 public record RegisterRequest
 {
     public required string Username { get; set; }
     public required string Email { get; set; }
     public required string Password { get; set; }
-};
+}

@@ -6,7 +6,7 @@ using PasswordManager.IoC.Persistence;
 
 namespace PasswordManager.IoC;
 
-public static partial class DependencyInjection
+public static class DependencyInjection
 {
     public static IServiceCollection AddIoC(this IServiceCollection services)
     {

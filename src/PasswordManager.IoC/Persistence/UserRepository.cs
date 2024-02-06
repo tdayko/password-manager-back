@@ -7,6 +7,13 @@ public class UserRepository : IUserRepository
 {
     private static readonly List<User> _users = [];
 
-    public void AddUser(User user) => _users.Add(user);
-    public User? GetUserbyEmail(string email) => _users.SingleOrDefault(x => x.Email == email);
+    public void AddUser(User user)
+    {
+        _users.Add(user);
+    }
+
+    public User? GetUserbyEmail(string email)
+    {
+        return _users.SingleOrDefault(x => x.Email == email);
+    }
 }

@@ -1,24 +1,29 @@
 using Microsoft.OpenApi.Models;
-using PasswordManager.IoC;
-using PasswordManager.Application;
 
-var builder = WebApplication.CreateBuilder(args);
+using PasswordManager.Application;
+using PasswordManager.IoC;
+
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(x =>
     x.SwaggerDoc("v1",
-        new OpenApiInfo { Title = "Password Manager v2", Description = "Easily protect sensitive passwords with this API", Version = "v2" }
+        new OpenApiInfo
+        {
+            Title = "Password Manager v2",
+            Description = "Easily protect sensitive passwords with this API",
+            Version = "v2"
+        }
     ));
 
 builder.Services.AddMediatR();
 builder.Services.AddIoC();
 
 
+WebApplication app = builder.Build();
 
-var app = builder.Build();
-
-#region App Configuration
+#region App Settings
 
 app.UseHttpsRedirection();
 app.MapControllers();

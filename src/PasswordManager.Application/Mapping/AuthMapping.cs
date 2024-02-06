@@ -1,7 +1,8 @@
 using AutoMapper;
+
 using PasswordManager.Application.Authentication.LoginQuery;
 using PasswordManager.Application.Authentication.RegisterCommand;
-using PasswordManager.Application.Contracts;
+using PasswordManager.Application.Contracts.Authentication;
 
 namespace PasswordManager.Application.Mapping;
 

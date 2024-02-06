@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+
 namespace PasswordManager.Domain.Entities;
 
 public class User(string username, string passwordHash, string email)
