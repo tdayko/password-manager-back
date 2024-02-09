@@ -20,7 +20,7 @@ builder.Services.AddSwaggerGen(x =>
     ));
 
 builder.Services.AddMediatR();
-builder.Services.AddIoC();
+builder.Services.AddIoC(builder.Configuration);
 
 WebApplication app = builder.Build();
 

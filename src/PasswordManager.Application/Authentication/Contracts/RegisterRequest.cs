@@ -1,4 +1,4 @@
-namespace PasswordManager.Application.Contracts.Authentication;
+namespace PasswordManager.Application.Authentication.Contracts;
 
 public record RegisterRequest
 {

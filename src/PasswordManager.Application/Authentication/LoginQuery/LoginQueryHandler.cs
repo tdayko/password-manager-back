@@ -1,5 +1,6 @@
 using MediatR;
 
+using PasswordManager.Application.Authentication.Contracts;
 using PasswordManager.Application.Errors;
 using PasswordManager.Application.Persistence;
 using PasswordManager.Domain.Entities;

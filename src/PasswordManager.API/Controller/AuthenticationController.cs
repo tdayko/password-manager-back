@@ -2,10 +2,9 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-using PasswordManager.Application.Authentication;
+using PasswordManager.Application.Authentication.Contracts;
 using PasswordManager.Application.Authentication.LoginQuery;
 using PasswordManager.Application.Authentication.RegisterCommand;
-using PasswordManager.Application.Contracts.Authentication;
 
 namespace PasswordManager.API.Controller;
 
