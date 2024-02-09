@@ -14,7 +14,6 @@ public class ApiResponseMiddleware(RequestDelegate next)
         {
             try
             {
-
                 using var memoryStream = new MemoryStream();
                 var originalResponseBody = context.Response.Body;
                 context.Response.Body = memoryStream;

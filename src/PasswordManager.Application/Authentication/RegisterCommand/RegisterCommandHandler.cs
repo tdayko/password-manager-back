@@ -1,5 +1,8 @@
+using System.Data;
+
 using MediatR;
 
+using PasswordManager.Application.Errors;
 using PasswordManager.Application.Persistence;
 using PasswordManager.Domain.Entities;
 
@@ -15,10 +18,10 @@ public class RegisterCommandHandler(IUserRepository userRepository)
         await Task.CompletedTask;
         if (_userRepository.GetUserbyEmail(request.Email) is not null)
         {
-            throw new Exception("DuplicateEmailException");
+            throw new DuplicateEmailException();
         }
 
-        User user = new User(request.Username, request.Password, request.Email);
+        User user = new(request.Username, request.Password, request.Email);
         _userRepository.AddUser(user);
 
         return new AuthenticationResult(user, "token");

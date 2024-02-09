@@ -1,5 +1,6 @@
 using MediatR;
 
+using PasswordManager.Application.Errors;
 using PasswordManager.Application.Persistence;
 using PasswordManager.Domain.Entities;
 
@@ -14,12 +15,12 @@ public class LoginQueryHandler(IUserRepository userRepository) : IRequestHandler
         await Task.CompletedTask;
         if (_userRepository.GetUserbyEmail(request.Email) is not User user)
         {
-            throw new Exception("EmailGivenNotFoundException");
+            throw new EmailGivenNotFoundException();
         }
 
         if (user.PasswordHash != request.Password)
         {
-            throw new Exception("InvalidPasswordException");
+            throw new InvalidPasswordException();
         }
 
         return new AuthenticationResult(user, "token");
