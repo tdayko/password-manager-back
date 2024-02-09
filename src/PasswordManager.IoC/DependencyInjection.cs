@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using PasswordManager.Application.Authentication;
 using PasswordManager.Application.Mapping;
 using PasswordManager.Application.Persistence;
 using PasswordManager.IoC.Authentication;
@@ -14,6 +15,7 @@ public static class DependencyInjection
     {
         services.AddScoped<IUserRepository, UserRepository>();
         var value = configuration.GetSection(JwtSettings.SectionName);
+        services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
         services.AddAutoMapper(typeof(AuthMapping));
         return services;

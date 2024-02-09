@@ -7,9 +7,10 @@ using PasswordManager.Domain.Entities;
 
 namespace PasswordManager.Application.Authentication.LoginQuery;
 
-public class LoginQueryHandler(IUserRepository userRepository) : IRequestHandler<LoginQuery, AuthenticationResult>
+public class LoginQueryHandler(IUserRepository userRepository, IJwtTokenGenerator jwtTokenGenerator) : IRequestHandler<LoginQuery, AuthenticationResult>
 {
     private readonly IUserRepository _userRepository = userRepository;
+    private readonly IJwtTokenGenerator _jwtTokenGenerator = jwtTokenGenerator;
 
     public async Task<AuthenticationResult> Handle(LoginQuery request, CancellationToken cancellationToken)
     {
@@ -24,6 +25,7 @@ public class LoginQueryHandler(IUserRepository userRepository) : IRequestHandler
             throw new InvalidPasswordException();
         }
 
-        return new AuthenticationResult(user, "token");
+        var token = _jwtTokenGenerator.GenerateToken(user);
+        return new AuthenticationResult(user, token);
     }
 }

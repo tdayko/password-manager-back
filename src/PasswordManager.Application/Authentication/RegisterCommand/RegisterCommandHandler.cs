@@ -7,10 +7,11 @@ using PasswordManager.Domain.Entities;
 
 namespace PasswordManager.Application.Authentication.RegisterCommand;
 
-public class RegisterCommandHandler(IUserRepository userRepository)
+public class RegisterCommandHandler(IUserRepository userRepository, IJwtTokenGenerator jwtTokenGenerator)
     : IRequestHandler<RegisterCommand, AuthenticationResult>
 {
     private readonly IUserRepository _userRepository = userRepository;
+    private readonly IJwtTokenGenerator _jwtTokenGenerator = jwtTokenGenerator;
 
     public async Task<AuthenticationResult> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
@@ -23,6 +24,7 @@ public class RegisterCommandHandler(IUserRepository userRepository)
         User user = new(request.Username, request.Password, request.Email);
         _userRepository.AddUser(user);
 
-        return new AuthenticationResult(user, "token");
+        var token = _jwtTokenGenerator.GenerateToken(user);
+        return new AuthenticationResult(user, token);
     }
 }
