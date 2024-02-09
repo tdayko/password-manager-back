@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.OpenApi.Models;
 
+using PasswordManager.API.Extensions;
 using PasswordManager.API.Middlewares;
 using PasswordManager.Application;
 using PasswordManager.Application.Errors;
@@ -28,19 +29,7 @@ WebApplication app = builder.Build();
 
 app.UseMiddleware<ApiResponseMiddleware>();
 app.UseHttpsRedirection();
-app.UseExceptionHandler("/password-manager/api/error");
-app.Map("/password-manager/api/error", (HttpContext context) =>
-{
-    var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
-    var (statusCode, messege) = exception switch
-        {
-            IServiceException serviceException => ((int)serviceException.StatusCode, serviceException.ErrorMessage),
-            _ => (StatusCodes.Status500InternalServerError, "An error occurred while processing your request")
-        };
-
-    return new ErrorResponse(messege: messege, statusCode: statusCode);
-});
-
+app.AddErrorHandlerEndPoint();
 app.MapControllers();
 app.UseSwagger();
 app.UseSwaggerUI(x => x.SwaggerEndpoint("/swagger/v1/swagger.json", "Password Manager API"));
