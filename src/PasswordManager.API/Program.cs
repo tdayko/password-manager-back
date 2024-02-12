@@ -1,8 +1,9 @@
+using System;
+
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 
-using PasswordManager.API.Extensions;
-using PasswordManager.API.Middlewares;
 using PasswordManager.Application;
 using PasswordManager.Application.Errors;
 using PasswordManager.IoC;
@@ -26,10 +27,26 @@ builder.Services.AddIoC(builder.Configuration);
 WebApplication app = builder.Build();
 
 #region App Settings
+app.UseExceptionHandler("/error");
+app.Map("/error", (HttpContext context) =>
+{
+    var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
+    var (statusCode, message) = exception switch
+    {
+        IServiceException serviceException => ((int)serviceException.StatusCode, serviceException.ErrorMessage),
+        _ => (StatusCodes.Status500InternalServerError, "An error occurred while processing your request")
+    };
 
-app.UseMiddleware<ApiResponseMiddleware>();
+    var problemDetails = new ProblemDetails()
+    {
+        Title = message,
+        Status = statusCode,
+    };
+
+    return Results.Problem(problemDetails);
+});
+
 app.UseHttpsRedirection();
-app.AddErrorHandlerEndPoint();
 app.MapControllers();
 app.UseSwagger();
 app.UseSwaggerUI(x => x.SwaggerEndpoint("/swagger/v1/swagger.json", "Password Manager API"));
