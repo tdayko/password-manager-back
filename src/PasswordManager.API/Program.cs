@@ -31,19 +31,13 @@ app.UseExceptionHandler("/error");
 app.Map("/error", (HttpContext context) =>
 {
     var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
-    var (statusCode, message) = exception switch
+    var (statusCode, title) = exception switch
     {
         IServiceException serviceException => ((int)serviceException.StatusCode, serviceException.ErrorMessage),
         _ => (StatusCodes.Status500InternalServerError, "An error occurred while processing your request")
     };
-
-    var problemDetails = new ProblemDetails()
-    {
-        Title = message,
-        Status = statusCode,
-    };
-
-    return Results.Problem(problemDetails);
+    
+    return Results.Problem(new ProblemDetails() {Title = title, Status = statusCode, Detail = exception?.InnerException?.Message});
 });
 
 app.UseHttpsRedirection();
