@@ -1,7 +1,7 @@
 using PasswordManager.Application;
 using PasswordManager.IoC;
 using PasswordManager.API.Extensions;
-using PasswordManager.API.Extensions.Endpoints;
+using PasswordManager.API.EndPoints;
 
 #region Builder Services
 
