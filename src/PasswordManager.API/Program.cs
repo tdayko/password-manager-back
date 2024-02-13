@@ -13,6 +13,7 @@ builder.Services.AddCustomSwagger();
 WebApplication app = builder.Build();
 
 app.UseHttpsRedirection();
+
 app.AddAuthenticationEndpoint();
 app.AddCustomErrors();
 app.AddCustomSwagger();

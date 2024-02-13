@@ -1,3 +1,5 @@
+using AutoMapper;
+
 using MediatR;
 
 using PasswordManager.Application.Authentication.Contracts;
@@ -7,11 +9,12 @@ using PasswordManager.Domain.Entities;
 
 namespace PasswordManager.Application.Authentication.RegisterCommand;
 
-public class RegisterCommandHandler(IUserRepository userRepository, IJwtTokenGenerator jwtTokenGenerator)
+public class RegisterCommandHandler(IUserRepository userRepository, IJwtTokenGenerator jwtTokenGenerator, IMapper mapper)
     : IRequestHandler<RegisterCommand, AuthenticationResult>
 {
     private readonly IUserRepository _userRepository = userRepository;
     private readonly IJwtTokenGenerator _jwtTokenGenerator = jwtTokenGenerator;
+    private readonly IMapper _mapper = mapper;
 
     public async Task<AuthenticationResult> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
@@ -25,6 +28,6 @@ public class RegisterCommandHandler(IUserRepository userRepository, IJwtTokenGen
         _userRepository.AddUser(user);
 
         var token = _jwtTokenGenerator.GenerateToken(user);
-        return new AuthenticationResult(user, token);
+        return new AuthenticationResult(_mapper.Map<UserResponse>(user), token);
     }
 }
