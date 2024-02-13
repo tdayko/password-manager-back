@@ -8,7 +8,7 @@ public static class CustomErrorsExtension
 {
     public static WebApplication AddCustomErrors(this WebApplication app)
     {
-        const string endPoint = "password-manager/api/errors";
+        const string endPoint = "/password-manager/api/errors";
 
         app.UseExceptionHandler(endPoint);
         app.Map(endPoint, (HttpContext context) =>
