@@ -1,0 +1,22 @@
+@host = http://localhost:5255/password-manager/api/auth
+
+### Register Request
+
+POST {{host}}/register
+Content-Type: application/json
+
+{
+  "username": "string",
+  "email": "user@example.com",
+  "password": "string"
+}
+
+### Login Request
+
+POST {{host}}/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "string"
+}
