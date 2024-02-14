@@ -3,14 +3,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PasswordManager.Application.Authentication.Contracts;
 
-public record LoginRequest
+public class LoginRequest(string email, string password)
 {
     [Required]
     [EmailAddress]
     [Description("The email of the user")]
-    public required string Email { get; set; }
+    public string Email { get; set; } = email;
 
     [Required]
     [Description("The password of the user")]
-    public required string Password { get; set; }
+    public string Password { get; set; } = password;
 }

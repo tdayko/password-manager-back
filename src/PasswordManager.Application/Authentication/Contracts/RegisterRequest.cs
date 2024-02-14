@@ -3,18 +3,17 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PasswordManager.Application.Authentication.Contracts;
 
-public record RegisterRequest
+public class RegisterRequest(string username, string email, string password)
 {
     [Required]
-    [Description("The username of the user")]
-    public required string Username { get; set; }
+    public string Username { get; init; } = username;
 
     [EmailAddress]
     [Required]
     [Description("The email of the user")]
-    public required string Email { get; set; }
+    public string Email { get; init; } = email;
 
     [Required]
     [Description("The password of the user")]
-    public required string Password { get; set; }
+    public string Password { get; init; } = password;
 }
