@@ -1,7 +1,7 @@
 namespace PasswordManager.Application.Contracts;
 
-public record StandardSuccessResponse
+public class StandardSuccessResponse <T>(T data) where T : UserResponse
 {
     public bool Success { get; init; } = true;
-    public required object Data { get; init; } 
+    public required T Data { get; init; } = data;
 }

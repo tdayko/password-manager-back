@@ -17,7 +17,7 @@ public class DomainMapping : Profile
 
         CreateMap<User, UserResponse>().ReverseMap();
 
-        CreateMap<AuthenticationResult, StandardSuccessResponse>()
+        CreateMap<AuthenticationResult, StandardSuccessResponse<UserResponse>>()
             .ForMember(dest => dest.Data, opt => opt.MapFrom(src => src));
     }
 }
