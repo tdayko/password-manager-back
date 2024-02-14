@@ -12,12 +12,14 @@ public class DomainMapping : Profile
 {
     public DomainMapping()
     {
-        CreateMap<RegisterRequest, RegisterCommand>().ReverseMap();
-        CreateMap<LoginRequest, LoginQuery>().ReverseMap();
+        CreateMap<RegisterRequest, RegisterCommand>()
+            .ConstructUsing(request => new RegisterCommand(request.Username, request.Email, request.Password));
+        CreateMap<LoginRequest, LoginQuery>()
+            .ConstructUsing(request => new LoginQuery(request.Email, request.Password));
 
-        CreateMap<User, UserResponse>().ReverseMap();
-
+        CreateMap<User, UserResponse>()
+            .ConstructUsing(user => new UserResponse(user.Id, user.Username, user.Email));
         CreateMap<AuthenticationResult, StandardSuccessResponse<UserResponse>>()
-            .ForMember(dest => dest.Data, opt => opt.MapFrom(src => src));
+            .ConstructUsing(authResult => new StandardSuccessResponse<UserResponse>(authResult.User));
     }
 }
