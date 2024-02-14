@@ -1,13 +1,6 @@
-using System.Text;
-
 namespace PasswordManager.Domain.Entities;
 
-public class Credential(
-    string? credentialName,
-    string username,
-    string emailAdress,
-    string webSite,
-    string passwordHash)
+public class Credential(string? credentialName, string username, string emailAdress, string webSite,string passwordHash)
 {
     public Guid Id { get; private set; } = Guid.NewGuid();
     public string WebSite { get; private set; } = webSite;
@@ -26,39 +19,27 @@ public class Credential(
         PasswordHash = passwordHash ?? PasswordHash;
     }
 
-    private static string GeneratePassword(uint lenght = 12, bool upperCase = true, bool lowercase = true,
-        bool numbers = true, bool specialCharacters = true)
+private static string GeneratePassword(uint length = 12, bool useUpperCase = true, bool useLowerCase = true, 
+    bool useNumbers = true, bool useSpecialCharacters = true)
+{
+    var password = string.Empty;
+    var random = new Random();
+
+    var characterSets = new[]
     {
-        StringBuilder password = new StringBuilder();
-        Random random = new Random();
-        List<char> characters = new List<char>();
+        useUpperCase ? "ABCDEFGHIJKLMNOPQRSTUVWXYZ" : string.Empty,
+        useLowerCase ? "abcdefghijklmnopqrstuvwxyz" : string.Empty,
+        useNumbers ? "0123456789" : string.Empty,
+        useSpecialCharacters ? "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~" : string.Empty
+    };
 
-        if (upperCase)
-        {
-            characters.AddRange(Enumerable.Range('A', 'Z' - 'A' + 1).Select(i => (char)i));
-        }
+    var allCharacters = characterSets.Where(x => !string.IsNullOrEmpty(x)).Aggregate(string.Empty, (acc, x) => acc + x);
 
-        if (lowercase)
-        {
-            characters.AddRange(Enumerable.Range('a', 'z' - 'a' + 1).Select(i => (char)i));
-        }
-
-        if (numbers)
-        {
-            characters.AddRange(Enumerable.Range('0', '9' - '0' + 1).Select(i => (char)i));
-        }
-
-        if (specialCharacters)
-        {
-            characters.AddRange(Enumerable.Range('!', '/').Select(i => (char)i));
-        }
-
-        for (int i = 0; i < lenght; i++)
-        {
-            int index = random.Next(0, characters.Count);
-            password.Append(characters[index]);
-        }
-
-        return password.ToString();
+    for (int i = 0; i < length; i++)
+    {
+        password += allCharacters[random.Next(allCharacters.Length)];
     }
+
+    return password;
+}
 }

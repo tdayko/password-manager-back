@@ -9,11 +9,12 @@ using PasswordManager.Domain.Entities;
 
 namespace PasswordManager.Application.Authentication.LoginQuery;
 
-public class LoginQueryHandler(IUserRepository userRepository, IJwtTokenGenerator jwtTokenGenerator, IMapper mapper) : IRequestHandler<LoginQuery, AuthenticationResult>
+public class LoginQueryHandler(IUserRepository userRepository, IJwtTokenGenerator jwtTokenGenerator, IMapper mapper)
+    : IRequestHandler<LoginQuery, AuthenticationResult>
 {
-    private readonly IUserRepository _userRepository = userRepository;
     private readonly IJwtTokenGenerator _jwtTokenGenerator = jwtTokenGenerator;
     private readonly IMapper _mapper = mapper;
+    private readonly IUserRepository _userRepository = userRepository;
 
     public async Task<AuthenticationResult> Handle(LoginQuery request, CancellationToken cancellationToken)
     {
@@ -28,7 +29,7 @@ public class LoginQueryHandler(IUserRepository userRepository, IJwtTokenGenerato
             throw new InvalidPasswordException();
         }
 
-        var token = _jwtTokenGenerator.GenerateToken(user);
+        string token = _jwtTokenGenerator.GenerateToken(user);
         return new AuthenticationResult(_mapper.Map<UserResponse>(user), token);
     }
 }

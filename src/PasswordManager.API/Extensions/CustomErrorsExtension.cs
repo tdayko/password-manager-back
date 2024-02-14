@@ -13,14 +13,17 @@ public static class CustomErrorsExtension
         app.UseExceptionHandler(endPoint);
         app.Map(endPoint, (HttpContext context) =>
         {
-            var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
-            var (statusCode, title) = exception switch
+            Exception? exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
+            (int statusCode, string title) = exception switch
             {
                 IServiceException serviceException => ((int)serviceException.StatusCode, serviceException.ErrorMessage),
                 _ => (StatusCodes.Status500InternalServerError, "An error occurred while processing your request")
             };
 
-            return Results.Problem(new ProblemDetails() { Title = title, Status = statusCode, Detail = exception?.Message });
+            return Results.Problem(new ProblemDetails
+            {
+                Title = title, Status = statusCode, Detail = exception?.Message
+            });
         });
 
         return app;

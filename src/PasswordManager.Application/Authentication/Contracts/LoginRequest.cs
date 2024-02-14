@@ -9,6 +9,7 @@ public record LoginRequest
     [EmailAddress]
     [Description("The email of the user")]
     public required string Email { get; set; }
+
     [Required]
     [Description("The password of the user")]
     public required string Password { get; set; }

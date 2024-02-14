@@ -6,12 +6,13 @@ public static class CustomSwaggerExtension
 {
     public static IServiceCollection AddCustomSwagger(this IServiceCollection services)
     {
-        services.AddSwaggerGen(x => x.SwaggerDoc("v1", new OpenApiInfo
-        {
-            Title = "Password Manager v2",
-            Description = "Easily protect sensitive passwords with this API",
-            Version = "v2"
-        }));
+        services.AddSwaggerGen(x => x.SwaggerDoc("v1",
+            new OpenApiInfo
+            {
+                Title = "Password Manager v2",
+                Description = "Easily protect sensitive passwords with this API",
+                Version = "v2"
+            }));
 
         return services;
     }

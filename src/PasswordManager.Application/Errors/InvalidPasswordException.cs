@@ -1,4 +1,5 @@
 using System.Net;
+
 namespace PasswordManager.Application.Errors;
 
 public class InvalidPasswordException : Exception, IServiceException
