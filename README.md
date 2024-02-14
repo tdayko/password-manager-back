@@ -39,8 +39,8 @@ to manage your credentials from various websites and apps to stay save and secur
 - [x] Show your added credentials quickly
 
 ## What I Learned
-- [x] Fluent API and Fluent Mapping with EF
-- [x] MVC Pattern
+- [ ] Fluent API and Fluent Mapping with EF
+- [ ] MVC Pattern
 - [x] Token Services (JWT) 
 - [x] HTTP Protocol in the .NET
 - [x] EF Migrations
