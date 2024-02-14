@@ -12,7 +12,7 @@ public static class AuthenticationEndpoint
 {
     public static WebApplication AddAuthenticationEndpoint(this WebApplication app)
     {
-        var authEndpoint = app.MapGroup("password-manager/api/auth");
+        var authEndpoint = app.MapGroup("password-manager/api/");
 
         authEndpoint.MapPost("register", async (RegisterRequest request, ISender sender, IMapper mapper) =>
         {
