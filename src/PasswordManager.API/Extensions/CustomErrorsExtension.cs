@@ -20,7 +20,7 @@ public static class CustomErrorsExtension
                 _ => (StatusCodes.Status500InternalServerError, "An error occurred while processing your request")
             };
 
-            return Results.Problem(new ProblemDetails() { Title = title, Status = statusCode, Detail = exception?.InnerException?.Message });
+            return Results.Problem(new ProblemDetails() { Title = title, Status = statusCode, Detail = exception?.Message });
         });
 
         return app;

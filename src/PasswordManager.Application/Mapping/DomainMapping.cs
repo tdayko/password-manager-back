@@ -8,13 +8,16 @@ using PasswordManager.Domain.Entities;
 
 namespace PasswordManager.Application.Mapping;
 
-public class AuthMapping : Profile
+public class DomainMapping : Profile
 {
-    public AuthMapping()
+    public DomainMapping()
     {
         CreateMap<RegisterRequest, RegisterCommand>().ReverseMap();
         CreateMap<LoginRequest, LoginQuery>().ReverseMap();
 
         CreateMap<User, UserResponse>().ReverseMap();
+
+        CreateMap<AuthenticationResult, StandardSuccessResponse>()
+            .ForMember(dest => dest.Data, opt => opt.MapFrom(src => src));
     }
 }

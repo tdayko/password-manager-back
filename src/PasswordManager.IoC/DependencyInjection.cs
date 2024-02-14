@@ -14,10 +14,11 @@ public static class DependencyInjection
     public static IServiceCollection AddIoC(this IServiceCollection services, ConfigurationManager configuration)
     {
         services.AddScoped<IUserRepository, UserRepository>();
-        var value = configuration.GetSection(JwtSettings.SectionName);
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+
         services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
-        services.AddAutoMapper(typeof(AuthMapping));
+        services.AddAutoMapper(typeof(DomainMapping));
+
         return services;
     }
 };

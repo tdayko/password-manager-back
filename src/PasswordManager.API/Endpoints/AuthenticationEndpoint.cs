@@ -4,6 +4,7 @@ using MediatR;
 using PasswordManager.Application.Authentication.Contracts;
 using PasswordManager.Application.Authentication.LoginQuery;
 using PasswordManager.Application.Authentication.RegisterCommand;
+using PasswordManager.Application.Contracts;
 
 namespace PasswordManager.API.EndPoints;
 
@@ -16,13 +17,13 @@ public static class AuthenticationEndpoint
         authEndpoint.MapPost("register", async (RegisterRequest request, ISender sender, IMapper mapper) =>
         {
             AuthenticationResult authResult = await sender.Send(mapper.Map<RegisterCommand>(request));
-            return Results.Ok(authResult);
+            return Results.Ok(mapper.Map<StandardSuccessResponse>(authResult));
         });
 
         authEndpoint.MapPost("login", async (LoginRequest request, ISender sender, IMapper mapper) =>
         {
             AuthenticationResult authResult = await sender.Send(mapper.Map<LoginQuery>(request));
-            return Results.Ok(authResult);
+            return Results.Ok(mapper.Map<StandardSuccessResponse>(authResult));
         });
 
         return app;
