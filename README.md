@@ -1,4 +1,4 @@
-# 🔒 Password Manager API 🔒
+# 🔒 Password Manager API V2🔒
 > Status: Developing...
 
 <details>
