@@ -18,7 +18,7 @@ public static class AuthenticationEndpoint
             {
                 AuthenticationResult authResult = await sender.Send(mapper.Map<RegisterCommand>(request));
                 return Results.Ok(mapper.Map<StandardSuccessResponse<UserResponse>>(authResult));
-            })
+            }) // swagger documentation
             .WithName("Register")
             .Produces<StandardSuccessResponse<UserResponse>>()
             .WithOpenApi(x =>
@@ -32,7 +32,7 @@ public static class AuthenticationEndpoint
             {
                 AuthenticationResult authResult = await sender.Send(mapper.Map<LoginQuery>(request));
                 return Results.Ok(mapper.Map<StandardSuccessResponse<UserResponse>>(authResult));
-            })
+            }) //swagger documentation
             .WithName("Login")
             .Produces<StandardSuccessResponse<UserResponse>>()
             .WithOpenApi(x =>
