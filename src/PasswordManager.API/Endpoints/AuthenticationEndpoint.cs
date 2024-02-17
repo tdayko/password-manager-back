@@ -17,10 +17,10 @@ public static class AuthenticationEndpoint
         authEndpoint.MapPost("register", async (RegisterRequest request, ISender sender, IMapper mapper) =>
             {
                 AuthenticationResult authResult = await sender.Send(mapper.Map<RegisterCommand>(request));
-                return Results.Ok(mapper.Map<StandardSuccessResponse<UserResponse>>(authResult));
+                return Results.Ok(mapper.Map<StandardSuccessResponse<AuthenticationResult>>(authResult));
             }) // swagger documentation
             .WithName("Register")
-            .Produces<StandardSuccessResponse<UserResponse>>()
+            .Produces<StandardSuccessResponse<AuthenticationResult>>()
             .WithOpenApi(x =>
             {
                 x.Summary = "Register to the Password Manager API";
@@ -31,10 +31,10 @@ public static class AuthenticationEndpoint
         authEndpoint.MapPost("login", async (LoginRequest request, ISender sender, IMapper mapper) =>
             {
                 AuthenticationResult authResult = await sender.Send(mapper.Map<LoginQuery>(request));
-                return Results.Ok(mapper.Map<StandardSuccessResponse<UserResponse>>(authResult));
+                return Results.Ok(mapper.Map<StandardSuccessResponse<AuthenticationResult>>(authResult));
             }) //swagger documentation
             .WithName("Login")
-            .Produces<StandardSuccessResponse<UserResponse>>()
+            .Produces<StandardSuccessResponse<AuthenticationResult>>()
             .WithOpenApi(x =>
             {
                 x.Summary = "Login to the Password Manager API";

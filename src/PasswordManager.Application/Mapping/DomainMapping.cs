@@ -14,12 +14,13 @@ public class DomainMapping : Profile
     {
         CreateMap<RegisterRequest, RegisterCommand>()
             .ConstructUsing(request => new RegisterCommand(request.Username, request.Email, request.Password));
+            
         CreateMap<LoginRequest, LoginQuery>()
             .ConstructUsing(request => new LoginQuery(request.Email, request.Password));
 
-        CreateMap<User, UserResponse>()
-            .ConstructUsing(user => new UserResponse(user.Id, user.Username, user.Email));
-        CreateMap<AuthenticationResult, StandardSuccessResponse<UserResponse>>()
-            .ConstructUsing(authResult => new StandardSuccessResponse<UserResponse>(authResult.User));
+        CreateMap<User, UserResponse>().ConvertUsing(user => new UserResponse(user.Id, user.Username, user.Email));
+
+        CreateMap<AuthenticationResult, StandardSuccessResponse<AuthenticationResult>>()
+            .ConstructUsing(authResult => new StandardSuccessResponse<AuthenticationResult>(authResult));
     }
 }
