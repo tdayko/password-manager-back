@@ -1,6 +1,6 @@
 namespace PasswordManager.Domain.Entities;
 
-public class Credential(string? credentialName, string username, string emailAdress, string webSite,string passwordHash)
+public class Credential(string? credentialName, string username, string emailAdress, string webSite, string passwordHash)
 {
     public Guid Id { get; private set; } = Guid.NewGuid();
     public string WebSite { get; private set; } = webSite;
@@ -19,27 +19,23 @@ public class Credential(string? credentialName, string username, string emailAdr
         PasswordHash = passwordHash ?? PasswordHash;
     }
 
-private static string GeneratePassword(uint length = 12, bool useUpperCase = true, bool useLowerCase = true, 
-    bool useNumbers = true, bool useSpecialCharacters = true)
-{
-    var password = string.Empty;
-    var random = new Random();
-
-    var characterSets = new[]
+    private static string GeneratePassword(uint length = 12, bool useUpperCase = true, bool useLowerCase = true,
+        bool useNumbers = true, bool useSpecialCharacters = true)
     {
-        useUpperCase ? "ABCDEFGHIJKLMNOPQRSTUVWXYZ" : string.Empty,
-        useLowerCase ? "abcdefghijklmnopqrstuvwxyz" : string.Empty,
-        useNumbers ? "0123456789" : string.Empty,
-        useSpecialCharacters ? "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~" : string.Empty
-    };
+        var password = string.Empty;
+        var random = new Random();
 
-    var allCharacters = characterSets.Where(x => !string.IsNullOrEmpty(x)).Aggregate(string.Empty, (acc, x) => acc + x);
+        var characterSets = new[]
+        {
+            useUpperCase ? "ABCDEFGHIJKLMNOPQRSTUVWXYZ" : string.Empty,
+            useLowerCase ? "abcdefghijklmnopqrstuvwxyz" : string.Empty,
+            useNumbers ? "0123456789" : string.Empty,
+            useSpecialCharacters ? "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~" : string.Empty
+        };
 
-    for (int i = 0; i < length; i++)
-    {
-        password += allCharacters[random.Next(allCharacters.Length)];
+        var allCharacters = characterSets.Where(x => !string.IsNullOrEmpty(x)).Aggregate(string.Empty, (acc, x) => acc + x);
+        password = new string(Enumerable.Range(0, (int)length).Select(x => allCharacters[random.Next(allCharacters.Length)]).ToArray());
+
+        return password;
     }
-
-    return password;
-}
 }
