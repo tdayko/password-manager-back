@@ -24,7 +24,7 @@ public class LoginQueryHandler(IUserRepository userRepository, IJwtTokenGenerato
             throw new EmailGivenNotFoundException();
         }
 
-        if (user.PasswordHash != request.Password)
+        if (user.Password != request.Password)
         {
             throw new InvalidPasswordException();
         }
