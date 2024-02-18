@@ -41,13 +41,13 @@ public static class AuthenticationEndpoint
         return app;
     }
 
-    private static async Task<IResult> HandleRegister(RegisterRequest request, ISender sender, IMapper mapper)
+    public static async Task<IResult> HandleRegister(RegisterRequest request, ISender sender, IMapper mapper)
     {
         AuthenticationResult authResult = await sender.Send(mapper.Map<RegisterCommand>(request));
         return Results.Ok(mapper.Map<StandardSuccessResponse<AuthenticationResult>>(authResult));
     }
 
-    private static async Task<IResult> HandleLogin(LoginRequest request, ISender sender, IMapper mapper)
+    public static async Task<IResult> HandleLogin(LoginRequest request, ISender sender, IMapper mapper)
     {
         AuthenticationResult authResult = await sender.Send(mapper.Map<LoginQuery>(request));
         return Results.Ok(mapper.Map<StandardSuccessResponse<AuthenticationResult>>(authResult));
