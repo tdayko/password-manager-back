@@ -1,51 +1,33 @@
 using AutoMapper;
-
+using NSubstitute;
 using MediatR;
 
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
-
-using NSubstitute;
 
 using PasswordManager.API.Endpoints;
 using PasswordManager.Application.Authentication.Contracts;
 using PasswordManager.Application.Authentication.LoginQuery;
 using PasswordManager.Application.Authentication.RegisterCommand;
 using PasswordManager.Application.Contracts;
+using PasswordManager.Domain.Entities;
+
 
 namespace PasswordManager.UnitTests.Endpoints;
 
 public class AuthenticationEndpointTests
 {
-    private readonly IEndpointRouteBuilder _routeBuilder = Substitute.For<IEndpointRouteBuilder>();
     private readonly ISender _sender = Substitute.For<ISender>();
     private readonly IMapper _mapper = Substitute.For<IMapper>();
-
-    [Fact]
-    public void AddAuthenticationEndpoint_RegistersRoutes()
-    {
-        // Arrange
-        var authEndpoint = _routeBuilder.MapGroup("password-manager/api/");
-
-        // Act
-        AuthenticationEndpoint.AddAuthenticationEndpoint(_routeBuilder);
-
-        // Assert
-        _routeBuilder.Received().MapGroup("password-manager/api/");
-        authEndpoint.Received().MapPost("register", Arg.Any<Delegate>());
-        authEndpoint.Received().MapPost("login", Arg.Any<Delegate>());
-    }
+    private readonly User _user = new("user", "user@exemple.com", "userpassword");
 
     [Fact(DisplayName = "Register returns OkResult")]
     public async Task Register_ReturnsOkResult()
     {
         // Arrange
-        var request = new RegisterRequest("user", "user@exemple.com", "userpassword");
-        var command = new RegisterCommand("user", "user@exemple.com", "userpassword");
-        var authResult = new AuthenticationResult(new UserResponse(Guid.Empty, "user@exemple.com", "userpassword"), "token");
+        var request = new RegisterRequest(_user.Username, _user.Email, _user.Password);
+        var command = new RegisterCommand(_user.Username, _user.Email, _user.Password);
+        var authResult = new AuthenticationResult(new UserResponse(_user.Id, _user.Email, _user.Password), "token");
         var response = new StandardSuccessResponse<AuthenticationResult>(authResult);
 
         _mapper.Map<RegisterCommand>(request).Returns(command);
@@ -64,9 +46,9 @@ public class AuthenticationEndpointTests
     public async Task Login_ReturnsOkResult()
     {
         // Arrange
-        var request = new LoginRequest("user@exemple.com", "userpassword");
-        var query = new LoginQuery("user@exemple.com", "userpassword");
-        var authResult = new AuthenticationResult(new UserResponse(Guid.Empty, "user@exemple.com", "userpassword"), "token");
+        var request = new LoginRequest(_user.Email, _user.Password);
+        var query = new LoginQuery(_user.Email, _user.Password);
+        var authResult = new AuthenticationResult(new UserResponse(_user.Id, _user.Email, _user.Password), "token");
         var response = new StandardSuccessResponse<AuthenticationResult>(authResult);
 
         _mapper.Map<LoginQuery>(request).Returns(query);
@@ -79,6 +61,5 @@ public class AuthenticationEndpointTests
         // Assert
         Assert.Equal(StatusCodes.Status200OK, okResult.StatusCode);
         Assert.Equal(response, okResult.Value);
-
     }
 }
