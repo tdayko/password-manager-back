@@ -1,4 +1,4 @@
-@host = http://localhost:5255/password-manager/api/auth
+@host = http://localhost:5255/password-manager/api
 
 ###
 # @name Register
