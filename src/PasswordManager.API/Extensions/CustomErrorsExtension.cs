@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+
 using PasswordManager.Application.Errors;
 
 namespace PasswordManager.API.Extensions;

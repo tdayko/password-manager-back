@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+
 using MediatR;
 
 using PasswordManager.Application.Authentication.Contracts;

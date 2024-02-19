@@ -14,7 +14,7 @@ public class DomainMapping : Profile
     {
         CreateMap<RegisterRequest, RegisterCommand>()
             .ConstructUsing(request => new RegisterCommand(request.Username, request.Email, request.Password));
-            
+
         CreateMap<LoginRequest, LoginQuery>()
             .ConstructUsing(request => new LoginQuery(request.Email, request.Password));
 

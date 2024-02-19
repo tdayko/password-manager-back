@@ -1,4 +1,5 @@
 using AutoMapper;
+
 using MediatR;
 
 using PasswordManager.Application.Authentication.Contracts;
@@ -14,29 +15,27 @@ public static class AuthenticationEndpoint
     {
         RouteGroupBuilder authEndpoint = app.MapGroup("password-manager/api/");
 
-        authEndpoint.MapPost("register", async (RegisterRequest request, ISender sender, IMapper mapper) => 
-            await HandleRegister(request, sender, mapper))
-
-                .WithName("Register")
-                .Produces<StandardSuccessResponse<AuthenticationResult>>()
-                .WithOpenApi(x =>
-                {
-                    x.Summary = "Register to the Password Manager API";
-                    x.Description = "Register to the Password Manager API with your credentials";
-                    return x;
-                });
+        authEndpoint.MapPost("register", async (RegisterRequest request, ISender sender, IMapper mapper) =>
+                await HandleRegister(request, sender, mapper))
+            .WithName("Register")
+            .Produces<StandardSuccessResponse<AuthenticationResult>>()
+            .WithOpenApi(x =>
+            {
+                x.Summary = "Register to the Password Manager API";
+                x.Description = "Register to the Password Manager API with your credentials";
+                return x;
+            });
 
         authEndpoint.MapPost("login", async (LoginRequest request, ISender sender, IMapper mapper) =>
-            await HandleLogin(request, sender, mapper))
-            
-                .WithName("Login")
-                .Produces<StandardSuccessResponse<AuthenticationResult>>()
-                .WithOpenApi(x =>
-                {
-                    x.Summary = "Login to the Password Manager API";
-                    x.Description = "Login to the Password Manager API with your credentials";
-                    return x;
-                });
+                await HandleLogin(request, sender, mapper))
+            .WithName("Login")
+            .Produces<StandardSuccessResponse<AuthenticationResult>>()
+            .WithOpenApi(x =>
+            {
+                x.Summary = "Login to the Password Manager API";
+                x.Description = "Login to the Password Manager API with your credentials";
+                return x;
+            });
 
         return app;
     }

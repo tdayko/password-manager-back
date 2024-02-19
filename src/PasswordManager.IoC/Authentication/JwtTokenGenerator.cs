@@ -16,7 +16,7 @@ public class JwtTokenGenerator(IOptions<JwtSettings> jwtSettings) : IJwtTokenGen
 
     public string GenerateToken(User user)
     {
-        SigningCredentials signingCredentials = new SigningCredentials(
+        SigningCredentials signingCredentials = new(
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecrectKey!)),
             SecurityAlgorithms.HmacSha256);
 
@@ -27,7 +27,7 @@ public class JwtTokenGenerator(IOptions<JwtSettings> jwtSettings) : IJwtTokenGen
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         ];
 
-        JwtSecurityToken securityToken = new JwtSecurityToken(
+        JwtSecurityToken securityToken = new(
             _jwtSettings.Issuer,
             claims: claims,
             audience: _jwtSettings.Audience,
