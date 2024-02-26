@@ -1,11 +1,9 @@
 using AutoMapper;
-
+using NSubstitute;
 using MediatR;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
-
-using NSubstitute;
 
 using PasswordManager.API.Endpoints;
 using PasswordManager.Application.Authentication.Contracts;
@@ -26,12 +24,11 @@ public class AuthenticationEndpointTests
     public async Task Register_ReturnsOkResult()
     {
         // Arrange
-        RegisterRequest request = new RegisterRequest(_user.Username, _user.Email, _user.Password);
-        RegisterCommand command = new RegisterCommand(_user.Username, _user.Email, _user.Password);
-        AuthenticationResult authResult =
-            new AuthenticationResult(new UserResponse(_user.Id, _user.Email, _user.Password), "token");
-        StandardSuccessResponse<AuthenticationResult> response =
-            new StandardSuccessResponse<AuthenticationResult>(authResult);
+        RegisterRequest request = new(_user.Username, _user.Email, _user.Password);
+        RegisterCommand command = new(_user.Username, _user.Email, _user.Password);
+
+        AuthenticationResult authResult = new(new UserResponse(_user.Id, _user.Email, _user.Password), "token");
+        StandardSuccessResponse<AuthenticationResult> response = new(authResult);
 
         _mapper.Map<RegisterCommand>(request).Returns(command);
         _sender.Send(command).Returns(Task.FromResult(authResult));
@@ -51,12 +48,11 @@ public class AuthenticationEndpointTests
     public async Task Login_ReturnsOkResult()
     {
         // Arrange  
-        LoginRequest request = new LoginRequest(_user.Email, _user.Password);
-        LoginQuery query = new LoginQuery(_user.Email, _user.Password);
-        AuthenticationResult authResult =
-            new AuthenticationResult(new UserResponse(_user.Id, _user.Email, _user.Password), "token");
-        StandardSuccessResponse<AuthenticationResult> response =
-            new StandardSuccessResponse<AuthenticationResult>(authResult);
+        LoginRequest request = new(_user.Email, _user.Password);
+        LoginQuery query = new(_user.Email, _user.Password);
+
+        AuthenticationResult authResult = new (new UserResponse(_user.Id, _user.Email, _user.Password), "token");
+        StandardSuccessResponse<AuthenticationResult> response = new(authResult);
 
         _mapper.Map<LoginQuery>(request).Returns(query);
         _sender.Send(query).Returns(Task.FromResult(authResult));
