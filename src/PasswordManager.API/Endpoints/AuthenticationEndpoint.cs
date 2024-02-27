@@ -1,5 +1,4 @@
 using AutoMapper;
-
 using MediatR;
 
 using PasswordManager.Application.Authentication.Contracts;

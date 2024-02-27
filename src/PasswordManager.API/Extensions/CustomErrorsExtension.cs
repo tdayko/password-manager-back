@@ -23,7 +23,9 @@ public static class CustomErrorsExtension
 
             return Results.Problem(new ProblemDetails
             {
-                Title = title, Status = statusCode, Detail = exception?.Message
+                Title = title,
+                Status = statusCode,
+                Detail = exception?.Message
             });
         });
 
