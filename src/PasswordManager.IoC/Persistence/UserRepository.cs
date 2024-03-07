@@ -12,7 +12,7 @@ public class UserRepository : IUserRepository
         _users.Add(user);
     }
 
-    public User? GetUserbyEmail(string email)
+    public User? GetUserByEmail(string email)
     {
         return _users.SingleOrDefault(x => x.Email == email);
     }
