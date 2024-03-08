@@ -24,7 +24,7 @@ public class RegisterCommandHandler(
     )
     {
         await Task.CompletedTask;
-        if (_userRepository.GetUserbyEmail(request.Email) is not null)
+        if (_userRepository.GetUserByEmail(request.Email) is not null)
         {
             throw new DuplicateEmailException();
         }
