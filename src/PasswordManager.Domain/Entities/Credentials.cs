@@ -10,7 +10,8 @@ public class Credential(
 {
     public Guid Id { get; private set; } = Guid.NewGuid();
     public string WebSite { get; private set; } = webSite;
-    public string CredentialName { get; private set; }
+    public string CredentialName { get; private set; } =
+        credentialName ?? new Uri(webSite).HostNameType.ToString();
     public string Username { get; private set; } = username;
     public string EmailAddress { get; private set; } = emailAdress;
     public string PasswordHash { get; private set; } = passwordHash;
@@ -28,7 +29,6 @@ public class Credential(
         Username = username ?? Username;
         EmailAddress = emailAddress ?? EmailAddress;
         PasswordHash = passwordHash ?? PasswordHash;
-        CredentialName = credentialName ?? new Uri(webSite).HostNameType.ToString();
     }
 
     private static string GeneratePassword(
