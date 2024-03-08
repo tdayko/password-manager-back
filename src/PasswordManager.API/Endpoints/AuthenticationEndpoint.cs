@@ -1,6 +1,5 @@
 using AutoMapper;
 using MediatR;
-
 using PasswordManager.Application.Authentication.Contracts;
 using PasswordManager.Application.Authentication.LoginQuery;
 using PasswordManager.Application.Authentication.RegisterCommand;
@@ -14,8 +13,12 @@ public static class AuthenticationEndpoint
     {
         RouteGroupBuilder authEndpoint = app.MapGroup("password-manager/api/");
 
-        authEndpoint.MapPost("register", async (RegisterRequest request, ISender sender, IMapper mapper) =>
-                await HandleRegister(request, sender, mapper))
+        authEndpoint
+            .MapPost(
+                "register",
+                async (RegisterRequest request, ISender sender, IMapper mapper) =>
+                    await HandleRegister(request, sender, mapper)
+            )
             .WithName("Register")
             .Produces<StandardSuccessResponse<AuthenticationResult>>()
             .WithOpenApi(x =>
@@ -25,8 +28,12 @@ public static class AuthenticationEndpoint
                 return x;
             });
 
-        authEndpoint.MapPost("login", async (LoginRequest request, ISender sender, IMapper mapper) =>
-                await HandleLogin(request, sender, mapper))
+        authEndpoint
+            .MapPost(
+                "login",
+                async (LoginRequest request, ISender sender, IMapper mapper) =>
+                    await HandleLogin(request, sender, mapper)
+            )
             .WithName("Login")
             .Produces<StandardSuccessResponse<AuthenticationResult>>()
             .WithOpenApi(x =>
@@ -39,13 +46,21 @@ public static class AuthenticationEndpoint
         return app;
     }
 
-    public static async Task<IResult> HandleRegister(RegisterRequest request, ISender sender, IMapper mapper)
+    public static async Task<IResult> HandleRegister(
+        RegisterRequest request,
+        ISender sender,
+        IMapper mapper
+    )
     {
         AuthenticationResult authResult = await sender.Send(mapper.Map<RegisterCommand>(request));
         return Results.Ok(mapper.Map<StandardSuccessResponse<AuthenticationResult>>(authResult));
     }
 
-    public static async Task<IResult> HandleLogin(LoginRequest request, ISender sender, IMapper mapper)
+    public static async Task<IResult> HandleLogin(
+        LoginRequest request,
+        ISender sender,
+        IMapper mapper
+    )
     {
         AuthenticationResult authResult = await sender.Send(mapper.Map<LoginQuery>(request));
         return Results.Ok(mapper.Map<StandardSuccessResponse<AuthenticationResult>>(authResult));

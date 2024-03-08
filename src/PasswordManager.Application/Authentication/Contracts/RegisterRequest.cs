@@ -5,7 +5,7 @@ namespace PasswordManager.Application.Authentication.Contracts;
 
 public class RegisterRequest(string username, string email, string password)
 {
-    [Required] 
+    [Required]
     [Description("The username of the user")]
     public string Username { get; init; } = username;
 
