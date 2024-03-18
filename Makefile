@@ -8,3 +8,5 @@ watch:
 	dotnet watch --project ./src/PasswordManager.API/PasswordManager.API.csproj
 run:
 	dotnet run --project ./src/PasswordManager.API/PasswordManager.API.csproj
+test:
+	dotnet test
