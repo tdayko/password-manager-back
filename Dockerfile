@@ -1,6 +1,8 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-stage
 
 ENV DOTNET_EnableDiagnostics=0
+ARG JWT_SECRET_KEY
+ENV JWT_SECRET_KEY=$JWT_SECRET_KEY
 
 WORKDIR /src
 COPY . .
