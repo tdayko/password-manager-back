@@ -1,8 +1,12 @@
 using AutoMapper;
+
 using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
+
 using NSubstitute;
+
 using PasswordManager.API.Endpoints;
 using PasswordManager.Application.Authentication.Contracts;
 using PasswordManager.Application.Authentication.LoginQuery;

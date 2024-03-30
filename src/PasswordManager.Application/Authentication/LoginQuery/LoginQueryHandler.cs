@@ -1,5 +1,7 @@
 using AutoMapper;
+
 using MediatR;
+
 using PasswordManager.Application.Authentication.Contracts;
 using PasswordManager.Application.Contracts;
 using PasswordManager.Application.Errors;

@@ -53,7 +53,7 @@ public class Credential(
         string allCharacters = characterSets
             .Where(x => !string.IsNullOrEmpty(x))
             .Aggregate(string.Empty, (acc, x) => acc + x);
-        
+
         password = new string(
             Enumerable
                 .Range(0, (int)length)
