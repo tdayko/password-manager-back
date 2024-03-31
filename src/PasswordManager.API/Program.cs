@@ -7,15 +7,16 @@ using DotNetEnv.Configuration;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-string rootPath = Directory.GetCurrentDirectory();
+string envFilePath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory())!.Parent!.FullName, ".env");
 builder.Configuration
-    .AddDotNetEnv(Path.Combine(Directory.GetParent(rootPath)!.Parent!.FullName, ".env"), LoadOptions.TraversePath())
+    .AddDotNetEnv(envFilePath, LoadOptions.TraversePath())
     .Build();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddMediatR();
-builder.Services.AddIoC(builder.Configuration);
-builder.Services.AddCustomSwagger();
+builder.Services
+    .AddEndpointsApiExplorer()
+    .AddMediatR()
+    .AddIoC(builder.Configuration)
+    .AddCustomSwagger();
 
 WebApplication app = builder.Build();
 
