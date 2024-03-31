@@ -18,7 +18,7 @@ public class JwtTokenGenerator(IOptions<JwtSettings> jwtSettings) : IJwtTokenGen
     {
         SigningCredentials signingCredentials =
             new(
-                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecrectKey!)),
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey!)),
                 SecurityAlgorithms.HmacSha256
             );
 
