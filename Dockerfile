@@ -9,5 +9,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build-stage /app ./
 
+COPY .env ../
+
 EXPOSE 8080
 ENTRYPOINT [ "dotnet", "PasswordManager.API.dll" ]
