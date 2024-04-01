@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+
 using AutoMapper;
 
 using MediatR;
@@ -30,8 +32,8 @@ public class RegisterCommandHandler(
         {
             throw new DuplicateEmailException();
         }
-
-        User user = new(request.Username, request.Password, request.Email);
+        string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+        User user = new(request.Username, passwordHash, request.Email);
         _userRepository.AddUser(user);
 
         string token = _jwtTokenGenerator.GenerateToken(user);

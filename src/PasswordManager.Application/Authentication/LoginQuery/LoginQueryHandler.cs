@@ -1,7 +1,6 @@
 using AutoMapper;
 
 using MediatR;
-
 using PasswordManager.Application.Authentication.Contracts;
 using PasswordManager.Application.Contracts;
 using PasswordManager.Application.Errors;
@@ -31,7 +30,7 @@ public class LoginQueryHandler(
             throw new EmailGivenNotFoundException();
         }
 
-        if (user.Password != request.Password)
+        if (!BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
         {
             throw new InvalidPasswordException();
         }
