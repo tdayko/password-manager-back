@@ -11,10 +11,12 @@ public class User(string username, string password, string email)
 
     public Collection<Credential> Credentials { get; private set; } = [];
 
+    private void AddCredential(Credential credential) => Credentials.Add(credential);
     private void UpdateUser(string? username, string? passwordHash, string email)
     {
         Username = username ?? Username;
         Password = passwordHash ?? Password;
         Email = email;
     }
+
 }
