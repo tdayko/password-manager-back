@@ -11,10 +11,7 @@ namespace PasswordManager.IoC;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddIoC(
-        this IServiceCollection services,
-        ConfigurationManager configuration
-    )
+    public static IServiceCollection AddIoC(this IServiceCollection services, ConfigurationManager configuration)
     {
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();

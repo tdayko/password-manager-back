@@ -2,6 +2,7 @@ using PasswordManager.API.Endpoints;
 using PasswordManager.API.Extensions;
 using PasswordManager.Application;
 using PasswordManager.IoC;
+
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services

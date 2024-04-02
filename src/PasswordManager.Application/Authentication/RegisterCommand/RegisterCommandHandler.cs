@@ -1,7 +1,4 @@
-using System.Runtime.InteropServices;
-
 using AutoMapper;
-
 using MediatR;
 
 using PasswordManager.Application.Authentication.Contracts;
@@ -22,10 +19,7 @@ public class RegisterCommandHandler(
     private readonly IMapper _mapper = mapper;
     private readonly IUserRepository _userRepository = userRepository;
 
-    public async Task<AuthenticationResult> Handle(
-        RegisterCommand request,
-        CancellationToken cancellationToken
-    )
+    public async Task<AuthenticationResult> Handle(RegisterCommand request, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
         if (_userRepository.GetUserByEmail(request.Email) is not null)

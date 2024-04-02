@@ -5,15 +5,15 @@ namespace PasswordManager.IoC.Persistence;
 
 public class UserRepository : IUserRepository
 {
-    private static readonly List<User> _users = [];
+    private static readonly List<User> Users = [];
 
     public void AddUser(User user)
     {
-        _users.Add(user);
+        Users.Add(user);
     }
 
     public User? GetUserByEmail(string email)
     {
-        return _users.SingleOrDefault(x => x.Email == email);
+        return Users.SingleOrDefault(x => x.Email == email);
     }
 }

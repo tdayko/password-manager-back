@@ -26,8 +26,6 @@ public class DomainMapping : Profile
             .ConvertUsing(user => new UserResponse(user.Id, user.Username, user.Email));
 
         CreateMap<AuthenticationResult, StandardSuccessResponse<AuthenticationResult>>()
-            .ConstructUsing(authResult => new StandardSuccessResponse<AuthenticationResult>(
-                authResult
-            ));
+            .ConstructUsing(authResult => new StandardSuccessResponse<AuthenticationResult>(authResult));
     }
 }

@@ -1,11 +1,9 @@
 using AutoMapper;
-
+using NSubstitute;
 using MediatR;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
-
-using NSubstitute;
 
 using PasswordManager.API.Endpoints;
 using PasswordManager.Application.Authentication.Contracts;
@@ -29,8 +27,7 @@ public class AuthenticationEndpointTests
         RegisterRequest request = new(_user.Username, _user.Email, _user.Password);
         RegisterCommand command = new(_user.Username, _user.Email, _user.Password);
 
-        AuthenticationResult authResult =
-            new(new UserResponse(_user.Id, _user.Email, _user.Password), "token");
+        AuthenticationResult authResult = new(new UserResponse(_user.Id, _user.Email, _user.Password), "token");
         StandardSuccessResponse<AuthenticationResult> response = new(authResult);
 
         _mapper.Map<RegisterCommand>(request).Returns(command);
@@ -54,8 +51,7 @@ public class AuthenticationEndpointTests
         LoginRequest request = new(_user.Email, _user.Password);
         LoginQuery query = new(_user.Email, _user.Password);
 
-        AuthenticationResult authResult =
-            new(new UserResponse(_user.Id, _user.Email, _user.Password), "token");
+        AuthenticationResult authResult = new(new UserResponse(_user.Id, _user.Email, _user.Password), "token");
         StandardSuccessResponse<AuthenticationResult> response = new(authResult);
 
         _mapper.Map<LoginQuery>(request).Returns(query);

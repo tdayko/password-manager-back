@@ -54,11 +54,10 @@ public class Credential(
             .Where(x => !string.IsNullOrEmpty(x))
             .Aggregate(string.Empty, (acc, x) => acc + x);
 
-        password = new string(
-            Enumerable
-                .Range(0, (int)length)
-                .Select(x => allCharacters[random.Next(allCharacters.Length)])
-                .ToArray()
+        password = new string(Enumerable
+            .Range(0, (int)length)
+            .Select(x => allCharacters[random.Next(allCharacters.Length)])
+            .ToArray()
         );
 
         return password;

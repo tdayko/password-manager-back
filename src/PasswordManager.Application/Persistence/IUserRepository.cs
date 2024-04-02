@@ -1,5 +1,4 @@
 using PasswordManager.Domain.Entities;
-
 namespace PasswordManager.Application.Persistence;
 
 public interface IUserRepository

@@ -1,6 +1,6 @@
 using AutoMapper;
-
 using MediatR;
+
 using PasswordManager.Application.Authentication.Contracts;
 using PasswordManager.Application.Contracts;
 using PasswordManager.Application.Errors;
@@ -19,10 +19,7 @@ public class LoginQueryHandler(
     private readonly IMapper _mapper = mapper;
     private readonly IUserRepository _userRepository = userRepository;
 
-    public async Task<AuthenticationResult> Handle(
-        LoginQuery request,
-        CancellationToken cancellationToken
-    )
+    public async Task<AuthenticationResult> Handle(LoginQuery request,CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
         if (_userRepository.GetUserByEmail(request.Email) is not User user)
