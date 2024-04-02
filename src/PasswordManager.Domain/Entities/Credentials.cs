@@ -1,7 +1,6 @@
 namespace PasswordManager.Domain.Entities;
 
 public class Credential(
-    User user,
     string username,
     string email,
     string passwordHash,
@@ -16,7 +15,6 @@ public class Credential(
     public string Username { get; private set; } = username;
     public string Email { get; private set; } = email;
     public string PasswordHash { get; private set; } = passwordHash;
-    public User User { get; init; } = user;
 
     private void UpdateCredential(
         string? website,
