@@ -3,9 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 using PasswordManager.Application.Authentication;
 using PasswordManager.Application.Mapping;
-using PasswordManager.Application.Persistence;
+using PasswordManager.Application.Repositories;
 using PasswordManager.IoC.Authentication;
-using PasswordManager.IoC.Persistence;
+using PasswordManager.IoC.Repositories;
 
 namespace PasswordManager.IoC;
 

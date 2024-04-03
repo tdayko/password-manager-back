@@ -4,7 +4,7 @@ using MediatR;
 using PasswordManager.Application.Authentication.Contracts;
 using PasswordManager.Application.Contracts;
 using PasswordManager.Application.Errors;
-using PasswordManager.Application.Persistence;
+using PasswordManager.Application.Repositories;
 using PasswordManager.Domain.Entities;
 
 namespace PasswordManager.Application.Authentication.LoginQuery;
