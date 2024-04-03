@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-using PasswordManager.Application.Authentication;
+using PasswordManager.Application.Persistence.Authentication;
 using PasswordManager.Domain.Entities;
 
 namespace PasswordManager.IoC.Authentication;

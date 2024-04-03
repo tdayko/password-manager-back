@@ -1,9 +1,9 @@
 using AutoMapper;
 
-using PasswordManager.Application.Authentication.Contracts;
-using PasswordManager.Application.Authentication.LoginQuery;
-using PasswordManager.Application.Authentication.RegisterCommand;
 using PasswordManager.Application.Contracts;
+using PasswordManager.Application.Persistence.Authentication.Contracts;
+using PasswordManager.Application.Persistence.Authentication.LoginQuery;
+using PasswordManager.Application.Persistence.Authentication.RegisterCommand;
 using PasswordManager.Domain.Entities;
 
 namespace PasswordManager.Application.Mapping;

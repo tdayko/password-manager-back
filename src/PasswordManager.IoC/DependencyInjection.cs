@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using PasswordManager.Application.Authentication;
 using PasswordManager.Application.Mapping;
+using PasswordManager.Application.Persistence.Authentication;
 using PasswordManager.Application.Repositories;
 using PasswordManager.IoC.Authentication;
 using PasswordManager.IoC.Repositories;

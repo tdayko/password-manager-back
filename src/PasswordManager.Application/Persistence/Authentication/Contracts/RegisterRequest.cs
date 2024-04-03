@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace PasswordManager.Application.Authentication.Contracts;
+namespace PasswordManager.Application.Persistence.Authentication.Contracts;
 
 public class RegisterRequest(string username, string email, string password)
 {

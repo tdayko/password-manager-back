@@ -1,5 +1,5 @@
 using PasswordManager.Domain.Entities;
-namespace PasswordManager.Application.Authentication;
+namespace PasswordManager.Application.Persistence.Authentication;
 
 public interface IJwtTokenGenerator
 {

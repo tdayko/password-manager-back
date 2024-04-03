@@ -1,34 +1,36 @@
 using AutoMapper;
 using MediatR;
 
-using PasswordManager.Application.Authentication.Contracts;
 using PasswordManager.Application.Contracts;
 using PasswordManager.Application.Errors;
+using PasswordManager.Application.Persistence.Authentication.Contracts;
 using PasswordManager.Application.Repositories;
 using PasswordManager.Domain.Entities;
 
-namespace PasswordManager.Application.Authentication.RegisterCommand;
+namespace PasswordManager.Application.Persistence.Authentication.LoginQuery;
 
-public class RegisterCommandHandler(
+public class LoginQueryHandler(
     IUserRepository userRepository,
     IJwtTokenGenerator jwtTokenGenerator,
     IMapper mapper
-) : IRequestHandler<RegisterCommand, AuthenticationResult>
+) : IRequestHandler<LoginQuery, AuthenticationResult>
 {
     private readonly IJwtTokenGenerator _jwtTokenGenerator = jwtTokenGenerator;
     private readonly IMapper _mapper = mapper;
     private readonly IUserRepository _userRepository = userRepository;
 
-    public async Task<AuthenticationResult> Handle(RegisterCommand request, CancellationToken cancellationToken)
+    public async Task<AuthenticationResult> Handle(LoginQuery request,CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
-        if (_userRepository.GetUserByEmail(request.Email) is not null)
+        if (_userRepository.GetUserByEmail(request.Email) is not User user)
         {
-            throw new DuplicateEmailException();
+            throw new EmailGivenNotFoundException();
         }
-        string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
-        User user = new(request.Username, passwordHash, request.Email);
-        _userRepository.AddUser(user);
+
+        if (!BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
+        {
+            throw new InvalidPasswordException();
+        }
 
         string token = _jwtTokenGenerator.GenerateToken(user);
         return new AuthenticationResult(_mapper.Map<UserResponse>(user), token);

@@ -1,8 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace PasswordManager.Application.Authentication.Contracts;
-
+namespace PasswordManager.Application.Persistence.Authentication.Contracts;
 public class LoginRequest(string email, string password)
 {
     [Required]
