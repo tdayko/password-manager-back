@@ -16,4 +16,9 @@ public class UserRepository : IUserRepository
     {
         return Users.SingleOrDefault(x => x.Email == email);
     }
+
+    public User? GetUserByUserId(Guid userId)
+    {
+        return Users.SingleOrDefault(x => x.Id == userId);
+    }
 }

@@ -3,9 +3,8 @@ using System.ComponentModel.DataAnnotations;
 namespace PasswordManager.Application.Contracts.Requests.Credential;
 
 public record AddCredentialRequest(
-    Guid UserId,
     string Username,
-    [EmailAddress]  string Email,
+    [EmailAddress] string Email,
     string Password,
-    string WebSite,
+    [Url] Uri WebSite,
     string? CredentialName);

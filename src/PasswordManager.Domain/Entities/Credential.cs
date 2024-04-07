@@ -5,21 +5,20 @@ public class Credential(
     string username,
     string email,
     string password,
-    string webSite,
-    string? credentialName
+    Uri webSite,
+    string credentialName = null
 )
 {
     public Guid Id { get; private set; } = Guid.NewGuid();
-    public string WebSite { get; private set; } = webSite;
-    public string CredentialName { get; private set; } =
-        credentialName ?? new Uri(webSite).HostNameType.ToString();
+    public Uri WebSite { get; private set; } = webSite;
+    public string CredentialName { get; private set; } = credentialName ?? webSite.Host;
     public string Username { get; private set; } = username;
     public string Email { get; private set; } = email;
     public string Password { get; private set; } = password;
     public User User { get; init; } = user;
 
     private void UpdateCredential(
-        string? website,
+        Uri? website,
         string? credentialName,
         string? username,
         string? email,
@@ -41,7 +40,7 @@ public class Credential(
         bool useSpecialCharacters = true
     )
     {
-        string password = string.Empty;
+        var password = string.Empty;
         Random random = new();
 
         string[] characterSets =
@@ -52,7 +51,7 @@ public class Credential(
             useSpecialCharacters ? "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~" : string.Empty
         ];
 
-        string allCharacters = characterSets
+        var allCharacters = characterSets
             .Where(x => !string.IsNullOrEmpty(x))
             .Aggregate(string.Empty, (acc, x) => acc + x);
 

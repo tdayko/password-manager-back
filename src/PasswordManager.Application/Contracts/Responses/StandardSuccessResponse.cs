@@ -1,4 +1,4 @@
-namespace PasswordManager.Application.Contracts;
+namespace PasswordManager.Application.Contracts.Responses;
 
 public class StandardSuccessResponse<T>(T data)
 {

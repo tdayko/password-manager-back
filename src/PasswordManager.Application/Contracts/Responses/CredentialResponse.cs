@@ -1,10 +1,10 @@
-namespace PasswordManager.Application.Contracts;
+namespace PasswordManager.Application.Contracts.Responses;
 
-public record Credential(
+public record CredentialResponse(
     Guid UserId,
     string Username,
     string Email,
     string Password,
-    string WebSite,
+    Uri WebSite,
     string? CredentialName
 );

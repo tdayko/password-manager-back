@@ -1,14 +1,13 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using PasswordManager.Application.Services;
 using PasswordManager.Domain.Entities;
 using PasswordManager.IoC.Configurations;
 
-namespace PasswordManager.IoC.Authentication;
+namespace PasswordManager.IoC.Services;
 
 public class JwtTokenService(IOptions<JwtSettings> jwtSettings) : IJwtTokenService
 {
@@ -24,7 +23,7 @@ public class JwtTokenService(IOptions<JwtSettings> jwtSettings) : IJwtTokenServi
 
         Claim[] claims =
         [
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new Claim(JwtRegisteredClaimNames.Name, user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         ];

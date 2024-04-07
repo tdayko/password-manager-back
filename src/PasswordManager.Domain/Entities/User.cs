@@ -9,14 +9,17 @@ public class User(string username, string password, string email)
     public string Email { get; private set; } = email;
     public string Password { get; private set; } = password;
 
-    public Collection<Credential> Credentials { get; private set; } = [];
+    public Collection<Credential> Credentials { get; } = [];
 
-    private void AddCredential(Credential credential) => Credentials.Add(credential);
+    private void AddCredential(Credential credential)
+    {
+        Credentials.Add(credential);
+    }
+
     private void UpdateUser(string? username, string? passwordHash, string email)
     {
         Username = username ?? Username;
         Password = passwordHash ?? Password;
         Email = email;
     }
-
 }
