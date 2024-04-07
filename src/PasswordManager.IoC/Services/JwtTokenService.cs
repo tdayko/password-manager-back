@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using PasswordManager.Application.Services;
 using PasswordManager.Domain.Entities;
-using PasswordManager.IoC.Utils;
+using PasswordManager.IoC.Configurations;
 
 namespace PasswordManager.IoC.Authentication;
 

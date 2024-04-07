@@ -1,6 +1,6 @@
 using AutoMapper;
-
 using PasswordManager.Domain.Entities;
+
 using PasswordManager.Application.Contracts.Responses; 
 using PasswordManager.Application.Services;
 using PasswordManager.Application.Contracts.Requests;
@@ -8,21 +8,20 @@ using PasswordManager.Application.Repositories;
 using PasswordManager.Application.Errors;
 using PasswordManager.Application.Contracts;
 
-
 namespace PasswordManager.API.Endpoints;
 
 public static class AuthenticationEndpoint
 {
     public static IEndpointRouteBuilder AddAuthenticationEndpoint(this IEndpointRouteBuilder app)
     {
-        RouteGroupBuilder authEndpoint = app.MapGroup("password-manager/api/");
+        RouteGroupBuilder authEndpoint = app.MapGroup("password-manager/api/auth");
 
         // register
         authEndpoint.MapPost("register", async (RegisterRequest request, IUserRepository repository, IJwtTokenService jwtTokenService, IMapper mapper) 
             => await HandleRegister(request, repository, jwtTokenService, mapper)
         )
         .WithName("Register")
-        // .Produces<StandardSuccessResponse<AuthenticationResult>>()
+        .Produces<StandardSuccessResponse<AuthenticationResponse>>()
         .WithOpenApi(x =>
         {
             x.Summary = "Register to the Password Manager API";
@@ -35,7 +34,7 @@ public static class AuthenticationEndpoint
             => await HandleLogin(request, repository, jwtTokenService, mapper)
         )
         .WithName("Login")
-        // .Produces<StandardSuccessResponse<AuthenticationResult>>()
+        .Produces<StandardSuccessResponse<AuthenticationResponse>>()
         .WithOpenApi(x =>
         {
             x.Summary = "Login to the Password Manager API";

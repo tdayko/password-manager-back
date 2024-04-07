@@ -1,4 +1,4 @@
-﻿namespace PasswordManager.IoC.Utils;
+﻿namespace PasswordManager.IoC.Configurations;
 
 public class JwtSettings
 {

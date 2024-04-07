@@ -4,7 +4,7 @@ public record Credential(
     Guid UserId,
     string Username,
     string Email,
-    string PasswordHash,
+    string Password,
     string WebSite,
     string? CredentialName
 );

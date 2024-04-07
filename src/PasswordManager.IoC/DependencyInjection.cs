@@ -5,8 +5,8 @@ using PasswordManager.Application.Mappers;
 using PasswordManager.Application.Repositories;
 using PasswordManager.Application.Services;
 using PasswordManager.IoC.Authentication;
+using PasswordManager.IoC.Configurations;
 using PasswordManager.IoC.Repositories;
-using PasswordManager.IoC.Utils;
 
 namespace PasswordManager.IoC;
 
