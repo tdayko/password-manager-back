@@ -7,7 +7,6 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddEndpointsApiExplorer()
-    .AddMediatR()
     .AddIoC(builder.Configuration)
     .AddCustomSwagger();
 

@@ -1,9 +1,10 @@
 namespace PasswordManager.Domain.Entities;
 
 public class Credential(
+    User user,
     string username,
     string email,
-    string passwordHash,
+    string password,
     string webSite,
     string? credentialName
 )
@@ -14,21 +15,22 @@ public class Credential(
         credentialName ?? new Uri(webSite).HostNameType.ToString();
     public string Username { get; private set; } = username;
     public string Email { get; private set; } = email;
-    public string PasswordHash { get; private set; } = passwordHash;
+    public string Password { get; private set; } = password;
+    public User User { get; init; } = user;
 
     private void UpdateCredential(
         string? website,
         string? credentialName,
         string? username,
         string? email,
-        string? passwordHash
+        string? password
     )
     {
         WebSite = website ?? WebSite;
         CredentialName = credentialName ?? CredentialName;
         Username = username ?? Username;
         Email = email ?? Email;
-        PasswordHash = passwordHash ?? PasswordHash;
+        Password = password ?? Password;
     }
 
     private static string GeneratePassword(

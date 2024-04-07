@@ -1,10 +1,13 @@
 using AutoMapper;
-using MediatR;
 
-using PasswordManager.Application.Persistence.Authentication.Contracts;
-using PasswordManager.Application.Persistence.Authentication.LoginQuery;
-using PasswordManager.Application.Persistence.Authentication.RegisterCommand;
+using PasswordManager.Domain.Entities;
+using PasswordManager.Application.Contracts.Responses; 
+using PasswordManager.Application.Services;
+using PasswordManager.Application.Contracts.Requests;
+using PasswordManager.Application.Repositories;
+using PasswordManager.Application.Errors;
 using PasswordManager.Application.Contracts;
+
 
 namespace PasswordManager.API.Endpoints;
 
@@ -15,11 +18,11 @@ public static class AuthenticationEndpoint
         RouteGroupBuilder authEndpoint = app.MapGroup("password-manager/api/");
 
         // register
-        authEndpoint.MapPost("register", async (RegisterRequest request, ISender sender, IMapper mapper) 
-            => await HandleRegister(request, sender, mapper)
+        authEndpoint.MapPost("register", async (RegisterRequest request, IUserRepository repository, IJwtTokenService jwtTokenService, IMapper mapper) 
+            => await HandleRegister(request, repository, jwtTokenService, mapper)
         )
         .WithName("Register")
-        .Produces<StandardSuccessResponse<AuthenticationResult>>()
+        // .Produces<StandardSuccessResponse<AuthenticationResult>>()
         .WithOpenApi(x =>
         {
             x.Summary = "Register to the Password Manager API";
@@ -28,11 +31,11 @@ public static class AuthenticationEndpoint
         });
 
         // login
-        authEndpoint.MapPost("login", async (LoginRequest request, ISender sender, IMapper mapper) 
-            => await HandleLogin(request, sender, mapper)
+        authEndpoint.MapPost("login", async (LoginRequest request, IUserRepository repository, IJwtTokenService jwtTokenService, IMapper mapper) 
+            => await HandleLogin(request, repository, jwtTokenService, mapper)
         )
         .WithName("Login")
-        .Produces<StandardSuccessResponse<AuthenticationResult>>()
+        // .Produces<StandardSuccessResponse<AuthenticationResult>>()
         .WithOpenApi(x =>
         {
             x.Summary = "Login to the Password Manager API";
@@ -43,15 +46,43 @@ public static class AuthenticationEndpoint
         return app;
     }
 
-    public static async Task<IResult> HandleRegister(RegisterRequest request,ISender sender,IMapper mapper)
+    public static async Task<IResult> HandleRegister(RegisterRequest request, IUserRepository repository, IJwtTokenService jwtTokenService, IMapper mapper)
     {
-        AuthenticationResult authResult = await sender.Send(mapper.Map<RegisterCommand>(request));
-        return Results.Ok(mapper.Map<StandardSuccessResponse<AuthenticationResult>>(authResult));
+        if (repository.GetUserByEmail(request.Email) != null)
+        {
+            throw new DuplicateEmailException();
+        }
+        
+        request.Password = BCrypt.Net.BCrypt.HashPassword(request.Password);
+        var user = mapper.Map<User>(request);
+        jwtTokenService.GenerateToken(user);
+        
+        var authResponse = new AuthenticationResponse(
+            mapper.Map<UserResponse>(user), 
+            jwtTokenService.GenerateToken(user)
+        );
+
+        repository.AddUser(user);
+        return Results.Ok(mapper.Map<StandardSuccessResponse<AuthenticationResponse>>(authResponse));
     }
 
-    public static async Task<IResult> HandleLogin(LoginRequest request, ISender sender, IMapper mapper)
+    public static async Task<IResult> HandleLogin(LoginRequest request, IUserRepository repository, IJwtTokenService jwtTokenService, IMapper mapper)
     {
-        AuthenticationResult authResult = await sender.Send(mapper.Map<LoginQuery>(request));
-        return Results.Ok(mapper.Map<StandardSuccessResponse<AuthenticationResult>>(authResult));
+        if (repository.GetUserByEmail(request.Email) is not User user)
+        {
+            throw new EmailGivenNotFoundException();
+        }
+
+        if (!BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
+        {
+            throw new InvalidPasswordException();
+        }
+
+        var authResponse = new AuthenticationResponse(
+            mapper.Map<UserResponse>(user), 
+            jwtTokenService.GenerateToken(user)
+        );
+        
+        return Results.Ok(mapper.Map<StandardSuccessResponse<AuthenticationResponse>>(authResponse));
     }
 }

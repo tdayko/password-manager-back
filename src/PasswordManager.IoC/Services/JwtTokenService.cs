@@ -4,13 +4,13 @@ using System.Text;
 
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-
-using PasswordManager.Application.Persistence.Authentication;
+using PasswordManager.Application.Services;
 using PasswordManager.Domain.Entities;
+using PasswordManager.IoC.Utils;
 
 namespace PasswordManager.IoC.Authentication;
 
-public class JwtTokenGenerator(IOptions<JwtSettings> jwtSettings) : IJwtTokenGenerator
+public class JwtTokenService(IOptions<JwtSettings> jwtSettings) : IJwtTokenService
 {
     private readonly JwtSettings _jwtSettings = jwtSettings.Value;
 
@@ -25,7 +25,7 @@ public class JwtTokenGenerator(IOptions<JwtSettings> jwtSettings) : IJwtTokenGen
         Claim[] claims =
         [
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new Claim(JwtRegisteredClaimNames.GivenName, user.Username),
+            new Claim(JwtRegisteredClaimNames.Email, user.Email),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         ];
 
