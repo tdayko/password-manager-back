@@ -12,10 +12,10 @@ public static class CredentialEndpoint
 {
     public static IEndpointRouteBuilder AddCredentialEndpoint(this IEndpointRouteBuilder app)
     {
-        var credentialEndpoint = app.MapGroup("password-manager/api/credetials/")
+        var credentialEndpoint = app.MapGroup("password-manager/api/credentials")
             .WithTags("Credential");
 
-        credentialEndpoint.MapPost("add", async (
+        credentialEndpoint.MapPost("/", async (
                     HttpContext context,
                     AddCredentialRequest request,
                     ICredentialRepository credentialRepository,
