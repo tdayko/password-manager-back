@@ -12,7 +12,8 @@ public static class AuthenticationEndpoint
 {
     public static IEndpointRouteBuilder AddAuthenticationEndpoint(this IEndpointRouteBuilder app)
     {
-        var authEndpoint = app.MapGroup("password-manager/api/auth");
+        var authEndpoint = app.MapGroup("password-manager/api/auth")
+            .WithTags("Authentication");
 
         // register
         authEndpoint.MapPost("register",
@@ -24,8 +25,7 @@ public static class AuthenticationEndpoint
             .Produces<StandardSuccessResponse<AuthenticationResponse>>()
             .WithOpenApi(x =>
             {
-                x.Summary = "Register to the Password Manager API";
-                x.Description = "Register to the Password Manager API with your credentials";
+                x.Summary = "Register new user";
                 return x;
             });
 
@@ -39,15 +39,14 @@ public static class AuthenticationEndpoint
             .Produces<StandardSuccessResponse<AuthenticationResponse>>()
             .WithOpenApi(x =>
             {
-                x.Summary = "Login to the Password Manager API";
-                x.Description = "Login to the Password Manager API with your credentials";
+                x.Summary = "Login user";
                 return x;
             });
 
         return app;
     }
 
-    public static async Task<IResult> HandleRegister(RegisterRequest request, IUserRepository repository,
+    private static async Task<IResult> HandleRegister(RegisterRequest request, IUserRepository repository,
         IJwtTokenService jwtTokenService, IMapper mapper)
     {
         if (repository.GetUserByEmail(request.Email) != null) throw new DuplicateEmailException();
@@ -65,7 +64,7 @@ public static class AuthenticationEndpoint
         return Results.Ok(mapper.Map<StandardSuccessResponse<AuthenticationResponse>>(authResponse));
     }
 
-    public static async Task<IResult> HandleLogin(LoginRequest request, IUserRepository repository,
+    private static async Task<IResult> HandleLogin(LoginRequest request, IUserRepository repository,
         IJwtTokenService jwtTokenService, IMapper mapper)
     {
         if (repository.GetUserByEmail(request.Email) is not User user) throw new EmailGivenNotFoundException();

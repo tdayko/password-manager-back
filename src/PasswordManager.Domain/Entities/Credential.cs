@@ -5,28 +5,24 @@ public class Credential(
     string username,
     string email,
     string password,
-    Uri webSite,
-    string credentialName = null
+    string webSite
 )
 {
     public Guid Id { get; private set; } = Guid.NewGuid();
-    public Uri WebSite { get; private set; } = webSite;
-    public string CredentialName { get; private set; } = credentialName ?? webSite.Host;
+    public string WebSite { get; private set; } = webSite;
     public string Username { get; private set; } = username;
     public string Email { get; private set; } = email;
     public string Password { get; private set; } = password;
     public User User { get; init; } = user;
 
     private void UpdateCredential(
-        Uri? website,
-        string? credentialName,
+        string? website,
         string? username,
         string? email,
         string? password
     )
     {
         WebSite = website ?? WebSite;
-        CredentialName = credentialName ?? CredentialName;
         Username = username ?? Username;
         Email = email ?? Email;
         Password = password ?? Password;

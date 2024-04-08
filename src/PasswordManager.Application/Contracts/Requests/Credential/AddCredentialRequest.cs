@@ -2,9 +2,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PasswordManager.Application.Contracts.Requests.Credential;
 
-public record AddCredentialRequest(
-    string Username,
-    [EmailAddress] string Email,
-    string Password,
-    [Url] Uri WebSite,
-    string? CredentialName);
+public class AddCredentialRequest(string username, string email, string password, Uri webSite)
+{
+    public string Username { get; private set; } = username;
+    [EmailAddress] public string Email { get; private set; } = email;
+    public string Password { get; private set; } = password;
+    [Url] public Uri WebSite { get; private set; } = webSite;
+}

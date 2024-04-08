@@ -5,6 +5,5 @@ public record CredentialResponse(
     string Username,
     string Email,
     string Password,
-    Uri WebSite,
-    string? CredentialName
+    string WebSite
 );

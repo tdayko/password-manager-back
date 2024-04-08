@@ -12,6 +12,7 @@ public static class CredentialEndpoint
     public static IEndpointRouteBuilder AddCredentialEndpoint(this IEndpointRouteBuilder app)
     {
         var credentialEndpoint = app.MapGroup("password-manager/api/credetials/")
+            .WithTags("Credential")
             .RequireAuthorization();
 
         credentialEndpoint.MapPost("add", async (
@@ -22,7 +23,13 @@ public static class CredentialEndpoint
                     IMapper mapper
                 ) => await HandleAddCredential(context, request, credentialRepository, userRepository, mapper)
             )
-            .RequireAuthorization();
+            .WithName("Add Credential")
+            .Produces<StandardSuccessResponse<CredentialResponse>>()
+            .WithOpenApi(x =>
+            {
+                x.Summary = "Add a new credential";
+                return x;
+            });
 
         return app;
     }
@@ -35,11 +42,13 @@ public static class CredentialEndpoint
         IMapper mapper)
     {
         if (!Guid.TryParse(context.User.FindFirstValue("name"), out var userId))
+        {
             throw new Exception("sub não encontrado");
+        }
 
         var user = userRepository!.GetUserByUserId(userId)!;
 
-        var credential = new Credential(user, request.Username, request.Email, request.Password, request.WebSite);
+        var credential = new Credential(user, request.Username, request.Email, request.Password, request.WebSite.Host);
         credentialRepository.AddCredential(credential);
 
         var credentialResponse = mapper.Map<CredentialResponse>(credential);

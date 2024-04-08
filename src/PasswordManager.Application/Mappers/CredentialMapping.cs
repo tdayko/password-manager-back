@@ -14,8 +14,7 @@ public class CredentialMapping : Profile
                 credential.Username,
                 credential.Email,
                 credential.Password,
-                credential.WebSite,
-                credential.CredentialName
+                credential.WebSite
             ));
     }
 }
