@@ -61,7 +61,7 @@ public static class AuthenticationEndpoint
         );
 
         repository.AddUser(user);
-        return Results.Ok(mapper.Map<StandardSuccessResponse<AuthenticationResponse>>(authResponse));
+        return Results.Ok(new StandardSuccessResponse<AuthenticationResponse>(authResponse));
     }
 
     private static async Task<IResult> HandleLogin(LoginRequest request, IUserRepository repository,
@@ -76,6 +76,6 @@ public static class AuthenticationEndpoint
             jwtTokenService.GenerateToken(user)
         );
 
-        return Results.Ok(mapper.Map<StandardSuccessResponse<AuthenticationResponse>>(authResponse));
+        return Results.Ok(new StandardSuccessResponse<AuthenticationResponse>(authResponse));
     }
 }
