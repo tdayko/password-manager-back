@@ -2,6 +2,7 @@ using System.Security.Claims;
 using AutoMapper;
 using PasswordManager.Application.Contracts.Requests.Credential;
 using PasswordManager.Application.Contracts.Responses;
+using PasswordManager.Application.Errors;
 using PasswordManager.Application.Repositories;
 using PasswordManager.Domain.Entities;
 
@@ -12,8 +13,7 @@ public static class CredentialEndpoint
     public static IEndpointRouteBuilder AddCredentialEndpoint(this IEndpointRouteBuilder app)
     {
         var credentialEndpoint = app.MapGroup("password-manager/api/credetials/")
-            .WithTags("Credential")
-            .RequireAuthorization();
+            .WithTags("Credential");
 
         credentialEndpoint.MapPost("add", async (
                     HttpContext context,
@@ -41,13 +41,12 @@ public static class CredentialEndpoint
         IUserRepository userRepository,
         IMapper mapper)
     {
-        if (!Guid.TryParse(context.User.FindFirstValue("name"), out var userId))
+        if (!context.User.Identity!.IsAuthenticated)
         {
-            throw new Exception("sub não encontrado");
+            throw new UnauthenticatedUserException();
         }
 
-        var user = userRepository!.GetUserByUserId(userId)!;
-
+        var user = userRepository!.GetUserByUserId(Guid.Parse(context.User.FindFirstValue("name")!))!;
         var credential = new Credential(user, request.Username, request.Email, request.Password, request.WebSite.Host);
         credentialRepository.AddCredential(credential);
 
