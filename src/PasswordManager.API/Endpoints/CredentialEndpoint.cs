@@ -34,6 +34,7 @@ public static class CredentialEndpoint
         return app;
     }
 
+    #region private methods
     private static async Task<IResult> HandleAddCredential(
         HttpContext context,
         AddCredentialRequest request,
@@ -41,11 +42,8 @@ public static class CredentialEndpoint
         IUserRepository userRepository,
         IMapper mapper)
     {
-        if (!context.User.Identity!.IsAuthenticated)
-        {
-            throw new UnauthenticatedUserException();
-        }
-
+        if (!context.User.Identity!.IsAuthenticated) throw new UnauthenticatedUserException();
+        
         var user = userRepository!.GetUserByUserId(Guid.Parse(context.User.FindFirstValue("name")!))!;
         var credential = new Credential(user, request.Username, request.Email, request.Password, request.WebSite.Host);
         credentialRepository.AddCredential(credential);
@@ -53,4 +51,5 @@ public static class CredentialEndpoint
         var credentialResponse = mapper.Map<CredentialResponse>(credential);
         return Results.Ok(new StandardSuccessResponse<CredentialResponse>(credentialResponse));
     }
+    #endregion
 }
