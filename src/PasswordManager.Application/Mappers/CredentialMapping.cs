@@ -10,6 +10,7 @@ public class CredentialMapping : Profile
     {
         CreateMap<Credential, CredentialResponse>()
             .ConstructUsing(credential => new CredentialResponse(
+                credential.Id,
                 credential.User.Id,
                 credential.Username,
                 credential.Email,
