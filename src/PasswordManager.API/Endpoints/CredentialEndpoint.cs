@@ -14,15 +14,9 @@ public static class CredentialEndpoint
     {
         var credentialEndpoint = app.MapGroup("password-manager/api/credentials")
             .WithTags("Credential");
-
-        credentialEndpoint.MapPost("/", async (
-                    HttpContext context,
-                    AddCredentialRequest request,
-                    ICredentialRepository credentialRepository,
-                    IUserRepository userRepository,
-                    IMapper mapper
-                ) => await HandleAddCredential(context, request, credentialRepository, userRepository, mapper)
-            )
+        
+        // add credential
+        credentialEndpoint.MapPost("/", HandleAddCredential)
             .WithName("Add Credential")
             .Produces<StandardSuccessResponse<CredentialResponse>>()
             .WithOpenApi(x =>
