@@ -17,11 +17,7 @@ public static class AuthenticationEndpoint
             .WithTags("Authentication");
 
         // register
-        authEndpoint.MapPost("register",
-                async (RegisterRequest request, IUserRepository repository, IJwtTokenService jwtTokenService,
-                        IMapper mapper)
-                    => await HandleRegister(request, repository, jwtTokenService, mapper)
-            )
+        authEndpoint.MapPost("register", HandleRegister)
             .WithName("Register")
             .Produces<StandardSuccessResponse<AuthenticationResponse>>()
             .WithOpenApi(x =>
@@ -31,11 +27,7 @@ public static class AuthenticationEndpoint
             });
 
         // login
-        authEndpoint.MapPost("login",
-                async (LoginRequest request, IUserRepository repository, IJwtTokenService jwtTokenService,
-                        IMapper mapper)
-                    => await HandleLogin(request, repository, jwtTokenService, mapper)
-            )
+        authEndpoint.MapPost("login",HandleLogin)
             .WithName("Login")
             .Produces<StandardSuccessResponse<AuthenticationResponse>>()
             .WithOpenApi(x =>
@@ -69,7 +61,7 @@ public static class AuthenticationEndpoint
     private static async Task<IResult> HandleLogin(LoginRequest request, IUserRepository repository,
         IJwtTokenService jwtTokenService, IMapper mapper)
     {
-        if (repository.GetUserByEmail(request.Email) is not User user) throw new EmailGivenNotFoundException();
+        if (repository.GetUserByEmail(request.Email) is not { } user) throw new EmailGivenNotFoundException();
         if (!BCrypt.Net.BCrypt.Verify(request.Password, user.Password)) throw new InvalidPasswordException();
 
         var authResponse = new AuthenticationResponse(
