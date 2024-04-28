@@ -1,26 +1,15 @@
 namespace PasswordManager.Domain.Entities;
 
-public class Credential(
-    User user,
-    string username,
-    string email,
-    string password,
-    string webSite
-)
+public class Credential(User user, string username, string email, string password, Uri webSite)
 {
     public Guid Id { get; private set; } = Guid.NewGuid();
-    public string WebSite { get; private set; } = webSite;
+    public Uri WebSite { get; private set; } = webSite;
     public string Username { get; private set; } = username;
     public string Email { get; private set; } = email;
     public string Password { get; private set; } = password;
     public User User { get; init; } = user;
 
-    private void UpdateCredential(
-        string? website,
-        string? username,
-        string? email,
-        string? password
-    )
+    private void UpdateCredential(Uri? website, string? username, string? email, string? password)
     {
         WebSite = website ?? WebSite;
         Username = username ?? Username;
@@ -28,13 +17,8 @@ public class Credential(
         Password = password ?? Password;
     }
 
-    private static string GeneratePassword(
-        uint length = 12,
-        bool useUpperCase = true,
-        bool useLowerCase = true,
-        bool useNumbers = true,
-        bool useSpecialCharacters = true
-    )
+    private static string GeneratePassword(uint length = 12, bool useUpperCase = true, bool useLowerCase = true, 
+        bool useNumbers = true, bool useSpecialCharacters = true)
     {
         var password = string.Empty;
         Random random = new();

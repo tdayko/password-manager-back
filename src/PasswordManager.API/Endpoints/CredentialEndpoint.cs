@@ -89,7 +89,7 @@ public static class CredentialEndpoint
         if (!context.User.Identity!.IsAuthenticated) throw new UnauthenticatedUserException();
         
         var user = userRepository!.GetUserByUserId(Guid.Parse(context.User.FindFirstValue("name")!))!;
-        var credential = new Credential(user, request.Username, request.Email, request.Password, request.WebSite.Host);
+        var credential = new Credential(user, request.Username, request.Email, request.Password, request.WebSite);
         credentialRepository.AddCredential(credential);
 
         var credentialResponse = mapper.Map<CredentialResponse>(credential);

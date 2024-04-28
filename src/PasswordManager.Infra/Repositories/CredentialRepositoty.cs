@@ -1,7 +1,7 @@
 using PasswordManager.Application.Repositories;
 using PasswordManager.Domain.Entities;
 
-namespace PasswordManager.IoC.Repositories;
+namespace PasswordManager.Infra.Repositories;
 
 public class CredentialRepository : ICredentialRepository
 {
