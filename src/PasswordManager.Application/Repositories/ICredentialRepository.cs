@@ -4,8 +4,8 @@ namespace PasswordManager.Application.Repositories;
 
 public interface ICredentialRepository
 {
-    void AddCredential(Credential credential);
-    Credential? GetCredentialById(Guid credentialId);
-    Credential? GetUserCredentialById(Guid credentialId, Guid userId);
-    List<Credential> GetAllUserCredentials(Guid userId);
+    Task AddCredential(Credential credential);
+    Task<Credential?> GetCredentialById(Guid credentialId);
+    Task<Credential?> GetUserCredentialById(Guid credentialId, Guid userId);
+    Task<List<Credential>> GetAllUserCredentials(Guid userId);
 }

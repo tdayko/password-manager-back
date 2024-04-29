@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using PasswordManager.API.Endpoints;
 using PasswordManager.API.Extensions;
-using PasswordManager.IoC;
+using PasswordManager.Infra;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -9,13 +9,12 @@ public class CredentialMapping : Profile
     public CredentialMapping()
     {
         CreateMap<Credential, CredentialResponse>()
-            .ConstructUsing(credential => new CredentialResponse(
+            .ConvertUsing(credential => new CredentialResponse(
                 credential.Id,
-                credential.User.Id,
                 credential.Username,
                 credential.Email,
                 credential.Password,
-                credential.WebSite
+                credential.WebSite.ToString()
             ));
     }
 }

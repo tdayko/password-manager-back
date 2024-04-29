@@ -56,7 +56,7 @@ public static class CredentialEndpoint
         if (!context.User.Identity!.IsAuthenticated) throw new UnauthenticatedUserException();
         var userId = Guid.Parse(context.User.FindFirstValue("name")!);
 
-        var credentials = credentialRepository.GetAllUserCredentials(userId);
+        var credentials = await credentialRepository.GetAllUserCredentials(userId);
         if (credentials.Count == 0) throw new NoCredentialsWereFoundException();
 
         var credentialsResponses = mapper.Map<List<CredentialResponse>>(credentials);
@@ -71,7 +71,7 @@ public static class CredentialEndpoint
         if (!context.User.Identity!.IsAuthenticated) throw new UnauthenticatedUserException();
         
         var userId = Guid.Parse(context.User.FindFirstValue("name")!);
-        var credential = credentialRepository.GetUserCredentialById(Guid.Parse(credentialId), userId);
+        var credential = await credentialRepository.GetUserCredentialById(Guid.Parse(credentialId), userId);
         
         if (credential is null) throw new CredentialNotFoundException();
         
@@ -87,10 +87,12 @@ public static class CredentialEndpoint
         )
     { 
         if (!context.User.Identity!.IsAuthenticated) throw new UnauthenticatedUserException();
+        var user = await userRepository!.GetUserByUserId(Guid.Parse(context.User.FindFirstValue("name")!));
         
-        var user = userRepository!.GetUserByUserId(Guid.Parse(context.User.FindFirstValue("name")!))!;
-        var credential = new Credential(user, request.Username, request.Email, request.Password, request.WebSite.Host);
-        credentialRepository.AddCredential(credential);
+        var credential = new Credential(request.Username, request.Email, request.Password, request.WebSite);
+        credential.AddUserToCredential(user);
+        
+        await credentialRepository.AddCredential(credential);
 
         var credentialResponse = mapper.Map<CredentialResponse>(credential);
         return Results.Ok(new StandardSuccessResponse<CredentialResponse>(credentialResponse));

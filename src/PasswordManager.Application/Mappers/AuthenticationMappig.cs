@@ -10,16 +10,16 @@ public class AuthenticationMapping : Profile
     public AuthenticationMapping()
     {
         CreateMap<RegisterRequest, User>()
-            .ConstructUsing(request => new User(
+            .ConvertUsing(request => new User(
                 request.Username,
                 request.Password,
                 request.Email
             ));
 
         CreateMap<User, UserResponse>()
-            .ConstructUsing(user => new UserResponse(
+            .ConvertUsing(user => new UserResponse(
                 user.Id,
-                user.Username,
+                user.UserName,
                 user.Email
             ));
     }

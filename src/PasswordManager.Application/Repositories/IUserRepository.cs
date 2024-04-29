@@ -4,7 +4,7 @@ namespace PasswordManager.Application.Repositories;
 
 public interface IUserRepository
 {
-    User? GetUserByEmail(string email);
-    User? GetUserByUserId(Guid userId);
-    void AddUser(User user);
+    Task<User?> GetUserByEmail(string email);
+    Task<User?> GetUserByUserId(Guid userId);
+    Task AddUser(User user);
 }
