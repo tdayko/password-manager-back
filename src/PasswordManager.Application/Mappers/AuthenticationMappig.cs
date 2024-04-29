@@ -19,7 +19,7 @@ public class AuthenticationMapping : Profile
         CreateMap<User, UserResponse>()
             .ConvertUsing(user => new UserResponse(
                 user.Id,
-                user.Username,
+                user.UserName,
                 user.Email
             ));
     }

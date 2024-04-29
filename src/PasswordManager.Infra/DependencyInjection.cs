@@ -4,6 +4,7 @@ using PasswordManager.Application.Mappers;
 using PasswordManager.Application.Repositories;
 using PasswordManager.Application.Services;
 using PasswordManager.Infra.Configurations;
+using PasswordManager.Infra.DbContext;
 using PasswordManager.Infra.Repositories;
 using PasswordManager.Infra.Services;
 
@@ -21,6 +22,8 @@ public static class DependencyInjection
 
         services.AddAutoMapper(typeof(AuthenticationMapping));
         services.AddAutoMapper(typeof(CredentialMapping));
+        
+        services.AddDbContext<PasswordManagerContext>();
 
         return services;
     }

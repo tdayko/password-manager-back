@@ -1,24 +1,23 @@
+using Microsoft.EntityFrameworkCore;
 using PasswordManager.Application.Repositories;
 using PasswordManager.Domain.Entities;
+using PasswordManager.Infra.DbContext;
 
 namespace PasswordManager.Infra.Repositories;
 
-public class UserRepository : IUserRepository
+public class UserRepository(PasswordManagerContext context) : IUserRepository
 {
-    private static readonly List<User> Users = [];
+    private readonly PasswordManagerContext _context = context;
 
-    public void AddUser(User user)
+    public async Task AddUser(User user)
     {
-        Users.Add(user);
+        await _context.Users!.AddAsync(user);
+        await _context.SaveChangesAsync();
     }
+    public async Task<User?> GetUserByEmail(string email)
+        => await _context.Users!.SingleOrDefaultAsync(x => x.Email == email);
 
-    public User? GetUserByEmail(string email)
-    {
-        return Users.SingleOrDefault(x => x.Email == email);
-    }
+    public async Task<User?> GetUserByUserId(Guid userId)
+        => await _context.Users!.SingleOrDefaultAsync(x => x.Id == userId);
 
-    public User? GetUserByUserId(Guid userId)
-    {
-        return Users.SingleOrDefault(x => x.Id == userId);
-    }
 }

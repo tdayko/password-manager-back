@@ -1,20 +1,26 @@
+using Microsoft.EntityFrameworkCore;
 using PasswordManager.Application.Repositories;
 using PasswordManager.Domain.Entities;
+using PasswordManager.Infra.DbContext;
 
 namespace PasswordManager.Infra.Repositories;
 
-public class CredentialRepository : ICredentialRepository
+public class CredentialRepository(PasswordManagerContext context) : ICredentialRepository
 {
-    private static readonly List<Credential> Credentials = [];
+    private readonly PasswordManagerContext _context = context;
 
-    public void AddCredential(Credential credential) => Credentials.Add(credential);
+    public async Task AddCredential(Credential credential) 
+    {
+        await _context.Credentials!.AddAsync(credential);
+        await _context.SaveChangesAsync();
+    }
     
-    public Credential? GetCredentialById(Guid credentialId) 
-        => Credentials.SingleOrDefault(credential => credential.Id == credentialId);
+    public async Task<Credential?> GetCredentialById(Guid credentialId) 
+        => await _context.Credentials!.SingleOrDefaultAsync(credential => credential.Id == credentialId);
     
-    public Credential? GetUserCredentialById(Guid credentialId, Guid userId)
-        => Credentials.SingleOrDefault(credential => credential.Id == credentialId && credential.User.Id == userId);
+    public async Task<Credential?> GetUserCredentialById(Guid credentialId, Guid userId)
+        => await _context.Credentials!.SingleOrDefaultAsync(credential => credential.Id == credentialId && credential.User.Id == userId);
 
-    public List<Credential> GetAllUserCredentials(Guid userId)
-        => Credentials.FindAll(credential => credential.User.Id == userId).ToList();
+    public async Task<List<Credential>> GetAllUserCredentials(Guid userId) 
+        => await _context.Credentials.Include(u => u.User).Where(x => x.User.Id == userId).ToListAsync();
 }

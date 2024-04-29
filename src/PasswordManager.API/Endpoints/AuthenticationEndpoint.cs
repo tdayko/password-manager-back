@@ -40,10 +40,10 @@ public static class AuthenticationEndpoint
     }
     
     #region private methods
-    private static async Task<IResult> HandleRegister(RegisterRequest request, IUserRepository repository,
+    private static async Task<IResult> HandleRegister(RegisterRequest request, IUserRepository userRepository,
         IJwtTokenService jwtTokenService, IMapper mapper)
     {
-        if (repository.GetUserByEmail(request.Email) != null) throw new DuplicateEmailException();
+        if (await userRepository.GetUserByEmail(request.Email) != null) throw new DuplicateEmailException();
 
         request.Password = BCrypt.Net.BCrypt.HashPassword(request.Password);
         var user = mapper.Map<User>(request);
@@ -54,14 +54,14 @@ public static class AuthenticationEndpoint
             jwtTokenService.GenerateToken(user)
         );
 
-        repository.AddUser(user);
+        await userRepository.AddUser(user);
         return Results.Ok(new StandardSuccessResponse<AuthenticationResponse>(authResponse));
     }
 
-    private static async Task<IResult> HandleLogin(LoginRequest request, IUserRepository repository,
+    private static async Task<IResult> HandleLogin(LoginRequest request, IUserRepository userRepository,
         IJwtTokenService jwtTokenService, IMapper mapper)
     {
-        if (repository.GetUserByEmail(request.Email) is not { } user) throw new EmailGivenNotFoundException();
+        if (await userRepository.GetUserByEmail(request.Email) is not { } user) throw new EmailGivenNotFoundException();
         if (!BCrypt.Net.BCrypt.Verify(request.Password, user.Password)) throw new InvalidPasswordException();
 
         var authResponse = new AuthenticationResponse(
