@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 using PasswordManager.Application.Mappers;
 using PasswordManager.Application.Repositories;
 using PasswordManager.Application.Services;
@@ -22,7 +23,7 @@ public static class DependencyInjection
 
         services.AddAutoMapper(typeof(AuthenticationMapping));
         services.AddAutoMapper(typeof(CredentialMapping));
-        
+
         services.AddDbContext<PasswordManagerContext>();
 
         return services;

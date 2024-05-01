@@ -1,4 +1,5 @@
 using AutoMapper;
+
 using PasswordManager.Application.Contracts.Requests.Authentication;
 using PasswordManager.Application.Contracts.Responses;
 using PasswordManager.Domain.Entities;

@@ -1,4 +1,5 @@
 using System.Net;
+
 using PasswordManager.Application.Services;
 
 namespace PasswordManager.Application.Errors;
