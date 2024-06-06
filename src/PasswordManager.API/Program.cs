@@ -1,6 +1,8 @@
 using System.Text;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+
 using PasswordManager.API.Endpoints;
 using PasswordManager.API.Extensions;
 using PasswordManager.Infra;

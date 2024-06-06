@@ -1,4 +1,5 @@
 using AutoMapper;
+
 using PasswordManager.Application.Contracts.Requests.Authentication;
 using PasswordManager.Application.Contracts.Responses;
 using PasswordManager.Application.Errors;
@@ -27,7 +28,7 @@ public static class AuthenticationEndpoint
             });
 
         // login
-        authEndpoint.MapPost("login",HandleLogin)
+        authEndpoint.MapPost("login", HandleLogin)
             .WithName("Login")
             .Produces<StandardSuccessResponse<AuthenticationResponse>>()
             .WithOpenApi(x =>
@@ -38,7 +39,7 @@ public static class AuthenticationEndpoint
 
         return app;
     }
-    
+
     #region private methods
     private static async Task<IResult> HandleRegister(RegisterRequest request, IUserRepository userRepository,
         IJwtTokenService jwtTokenService, IMapper mapper)

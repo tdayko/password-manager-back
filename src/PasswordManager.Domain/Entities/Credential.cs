@@ -7,7 +7,7 @@ public class Credential(string username, string email, string password, Uri webS
     public string Username { get; private set; } = username;
     public string Email { get; private set; } = email;
     public string Password { get; private set; } = password;
-    public User User { get; private set; } 
+    public User User { get; private set; }
 
     public void UpdateCredential(Uri? website, string? username, string? email, string? password)
     {
@@ -19,7 +19,7 @@ public class Credential(string username, string email, string password, Uri webS
 
     public void AddUserToCredential(User user) => User = user;
 
-    public static string GeneratePassword(uint length = 12, bool useUpperCase = true, bool useLowerCase = true, 
+    public static string GeneratePassword(uint length = 12, bool useUpperCase = true, bool useLowerCase = true,
         bool useNumbers = true, bool useSpecialCharacters = true)
     {
         Random random = new();
